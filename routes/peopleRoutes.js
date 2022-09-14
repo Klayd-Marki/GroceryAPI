@@ -1,4 +1,4 @@
-const peoplesList = require("../controllers/peopleController")
+const peoplesList = require("../controllers/mockPeopleController")
 
 module.exports = function(app){
     app.route("/peoples")
