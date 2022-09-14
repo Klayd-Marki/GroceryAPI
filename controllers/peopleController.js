@@ -1,17 +1,17 @@
 const mongoose = require("mongoose")
-const Food = mongoose.model("Food")  // Food viitab schemale mis on modelis(foodModel.js)
+const People = mongoose.model("People")  // People viitab schemale mis on modelis(peopleModel.js)
 
 
 exports.getAll = (req, res) => {
-    Food.find({}, (err, food) => {
+    People.find({}, (err, poeple) => {
         if (err) {
             res.status(400).send(err)
-        } else { res.json(food) }
+        } else { res.json(poeple) }
     })
 }
 exports.createNew =  (req, res) => {
-    const new_food = new Food(req.body)
-    new_food.save((err,food)=>{
+    const new_people = new People(req.body)
+    new_people.save((err,food)=>{
         if (err) {
             res.status(400).send(err)
         } else { res.status(201).json(food)}
