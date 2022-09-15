@@ -1,3 +1,5 @@
+const {faker} = require("@faker-js/faker")
+
 const peoples = [
     { id: 1, name: "Japheth Kolmas", age: 22 },
     { id: 2, name: "Jaanus Meidla", age: 34 },
@@ -5,6 +7,13 @@ const peoples = [
     { id: 4, name: "Karl Suur Kolmas", age: 58 },
 
 ]
+
+for (let i = 0; i < 20; i++) {
+    const randomName = faker.name.fullName()
+    console.log(randomName);
+
+}
+
 
 exports.getAll = (req, res) => {
     res.send(peoples)
@@ -42,12 +51,12 @@ exports.editById = function (req, res) {
         return
     }
     const index = peoples.findIndex(x => x.id === parseInt(req.params.id))
-    if (index===-1) {
+    if (index === -1) {
         res.status(404).send({ error: "People not found." })
         return
     }
 
-    peoples[index]={...peoples[index],...req.body}
+    peoples[index] = { ...peoples[index], ...req.body }
 
     res.status(200).json(peoples[index])
 }
@@ -59,11 +68,11 @@ exports.deleteById = function (req, res) {
     }
     const index = peoples.findIndex(x => x.id === parseInt(req.params.id))
 
-    if (index===-1) {
+    if (index === -1) {
         res.status(404).send({ error: "People not found." })
         return
     }
-    peoples.splice(index,1)
+    peoples.splice(index, 1)
     res.status(204).send()
 
 }
