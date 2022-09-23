@@ -67,7 +67,7 @@ async function seedDB() {
         // make a bunch of time series data
         let timeSeriesData = [];
 
-        for (let i = 0; i < 5000; i++) {
+        for (let i = 0; i < 500; i++) {
             const firstName = faker.name.firstName();
             const price = faker.finance.amount(5,30,0)
             const age = faker.date.birthdate()
@@ -80,7 +80,6 @@ async function seedDB() {
           }
         collection.insertMany(timeSeriesData,(err,result)=>{
           if(err){
-            console.log("ERROR:",err);
           }
           else{
             console.log("Database seeded! :)");
