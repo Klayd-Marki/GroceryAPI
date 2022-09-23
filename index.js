@@ -1,6 +1,7 @@
 
+require("dotenv").config()
 const app = require('express')()
-const port = 8080
+const port = process.env.PORT
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./docs/swagger.json')
 const mongoose = require("mongoose")
