@@ -3,10 +3,10 @@ const People = mongoose.model("People")  // People viitab schemale mis on modeli
 
 
 exports.getAll = (req, res) => {
-    People.find({}, (err, poeple) => {
+    People.find({}, (err, peoples) => {
         if (err) {
             res.status(400).send(err)
-        } else { res.json(poeple) }
+        } else { res.json(peoples) }
     })
 }
 exports.createNew =  (req, res) => {
@@ -25,10 +25,10 @@ exports.createNew =  (req, res) => {
 
 
 exports.getById = function (req, res) {
-    People.findById(req.params.id, (err, poeple) => {
+    People.findById(req.params.id, (err, peoples) => {
         if (err) {
             res.status(400).send({error:"People not found"})
-        } else { res.json(poeple) }
+        } else { res.json(peoples) }
     })
     
 }

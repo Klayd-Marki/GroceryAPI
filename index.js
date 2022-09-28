@@ -1,6 +1,7 @@
 
 require("dotenv").config()
 const app = require('express')()
+const cors = require("cors")
 const port = process.env.PORT
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./docs/swagger.json')
@@ -14,6 +15,7 @@ const MongoClient = require("mongodb").MongoClient;
 mongoose.Promise = global.Promise
 mongoose.connect("mongodb://localhost:27017/peopleApiDb")
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -67,14 +69,12 @@ async function seedDB() {
         // make a bunch of time series data
         let timeSeriesData = [];
 
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 100; i++) {
             const firstName = faker.name.firstName();
-            const price = faker.finance.amount(5,30,0)
             const age = faker.date.birthdate()
             let grocerystore = {
               name: firstName,
-              age: age,
-              price: price
+              age: age
             }
             timeSeriesData.push(grocerystore)
           }
