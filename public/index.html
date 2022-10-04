@@ -1,53 +1,83 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  </head>
-  <body>
-    <div id="app">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body>
+  <div id="app">
     <table id="gamesTable" class="table table-striped table-bordered">
 
       <tr>
         <th>Name</th>
         <th>Age</th>
       </tr>
-    
-    <tr v-for="name in names">
-      <th>{{name.name}}</th>
-      <th>{{name.age}}</th>
-    </tr>
-  </table>
 
-  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+      <tr v-for="name in names">
+        <th>{{name.name}}</th>
+        <th>{{name.age}}</th>
+      </tr>
+    </table>
+    <div class="model" tabindex="-1">
+      <div class="model-dialog">
+        <div class="model-header">
+          <button type="button" class="btn-close" data-bs-dismiss="model" aria-label="Close"></button>
+        </div>
+        <div class="model-body">
+          <p>Model body text goes here.</p>
+        </div>
+        <div class="model-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="model">Close</button>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 
 
-    {{  message }}
+    {{ message }}
     "<a class="btn btn-primary btn-sm" @click="count++" href="#" role="button">{{ count }}</a>
   </div>
-    
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-   
-    
-    <script type="module">
-      import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-    
-      createApp({
-        data() {
-          return {
-            names:[]
-          }
-        },
-        async created(){
-          this.names = await(await fetch("http://localhost:8080/peoples")).json()
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+
+  <script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+      data() {
+        return {
+          names: []
         }
-      }).mount('#app')
-    </script>
+      },
+     
 
-  </body>
+      async created() {
+        this.names = await (await fetch("http://localhost:8080/peoples")).json()
+      },
+      methods: {
+        getName: async function(id){
+          this.nameInModel = await (await fetch('http://localhost:8080/peoples/${id}')).json()
+          let nameInfoModel= new bootstrap.Model(document.getElementById('nameInfoModel'), {})
+          nameInfoModel.show()
+        }
+      }
+    }).mount('#app')
+  </script>
+
+</body>
+
 </html>
