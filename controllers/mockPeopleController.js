@@ -13,7 +13,7 @@ exports.getAll = (req, res) => {
     })
 }
 
-
+/*
 // FAKER Name
 for (let i = 0; i < 20; i++) {
     const randomName = faker.name.fullName()
@@ -36,7 +36,7 @@ console.log("--------------------------------")
 for (let i = 0; i < 10; i++) {
     const productName = faker.commerce.productName()
     console.log(productName);
-} 
+} */
 
 
 

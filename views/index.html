@@ -10,25 +10,31 @@
 
 <body>
   <div id="app">
-    <table id="gamesTable" class="table table-striped table-bordered">
+    <table id="itemsTable" class="table table-striped table-bordered">
 
       <tr>
-        <th>Name</th>
-        <th>Age</th>
+        <th>ItemName</th>
+        <th>Price</th>
       </tr>
 
-      <tr v-for="name in names">
-        <th>{{name.name}}</th>
-        <th>{{name.age}}</th>
+      <tr v-for="item in items">
+        <th>{{item.itemName}}</th>
+        <td @click="getItem(item.id)">{{item.name}}</td>
+        <th>{{name.price}}</th>
       </tr>
     </table>
-    <div class="model" tabindex="-1">
+    <div id="itemInfoModel" class="model" tabindex="-1">
       <div class="model-dialog">
         <div class="model-header">
           <button type="button" class="btn-close" data-bs-dismiss="model" aria-label="Close"></button>
         </div>
         <div class="model-body">
-          <p>Model body text goes here.</p>
+          <table class="table table-striped">
+            <tr><th>ID</th><td>{{itemInModel.id}}</td></tr>
+            <tr><th>Name</th><td>{{itemInModel.name}}</td></tr>
+            <tr><th>Price</th><td>{{itemInModel.price}}</td></tr>
+
+          </table>
         </div>
         <div class="model-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="model">Close</button>
@@ -60,19 +66,18 @@
     createApp({
       data() {
         return {
-          names: []
+          items: []
         }
       },
-     
-
+      
       async created() {
-        this.names = await (await fetch("http://localhost:8080/peoples")).json()
+        this.items = await (await fetch("http://localhost:8080/peoples")).json()
       },
       methods: {
         getName: async function(id){
-          this.nameInModel = await (await fetch('http://localhost:8080/peoples/${id}')).json()
-          let nameInfoModel= new bootstrap.Model(document.getElementById('nameInfoModel'), {})
-          nameInfoModel.show()
+          this.itemInfoModel = await (await fetch('http://localhost:8080/peoples/${id}')).json()
+          let itemInfoModel= new bootstrap.Model(document.getElementById('itemInfoModel'), {})
+          itemInfoModel.show()
         }
       }
     }).mount('#app')

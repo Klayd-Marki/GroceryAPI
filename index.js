@@ -19,7 +19,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-require("./routes/peopleRoutes")(app)
+require("./routes/allRoutes")(app)
 
 
 /*
