@@ -12,14 +12,12 @@ const PeopleSchema  = new Schema({
         required: "Age is mandatory"
 
      },
-     category: {
+    /* category: {
          type: String,
          lowercase: true
-     }
+     }*/
 
 })
-
-
 
 
 module.exports = mongoose.model("People",PeopleSchema)

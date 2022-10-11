@@ -1,6 +1,6 @@
 const peoplesList = require("../controllers/mockPeopleController")
-const items = require("../controllers/itemController")
-
+const itemsList = require("../controllers/itemController")
+const express = require("express")
 const router = express.Router();
 
 module.exports = function(app){
@@ -13,5 +13,7 @@ module.exports = function(app){
     .put(peoplesList.editById)                 //Update
     .delete(peoplesList.deleteById)            // Delete
 }
+
+
 
 router.post('/items', itemController);

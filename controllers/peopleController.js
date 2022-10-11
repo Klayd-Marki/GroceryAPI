@@ -39,6 +39,7 @@ exports.deleteById = function (req, res) {
 
 }
 
+
 function getBaseUrl(req) {
     return (req.connection && req.connection.encryoted? "https":"http")+`://${req.headers.host}`
     
