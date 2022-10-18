@@ -12,9 +12,7 @@ const ItemSchema  = new Schema({
         lowercase: true
      }
 
-    ,
-  
-
+    
 })
 
 

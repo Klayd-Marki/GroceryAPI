@@ -2,7 +2,6 @@ const {faker} = require("@faker-js/faker")
 const mongoose = require("mongoose")
 const People = mongoose.model("People")
 
-
 const peoples = []
 
 exports.getAll = (req, res) => {

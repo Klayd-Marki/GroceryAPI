@@ -1,5 +1,5 @@
 const peoplesList = require("../controllers/mockPeopleController")
-const itemsList = require("../controllers/itemController")
+const itemController = require("../controllers/itemController")
 const express = require("express")
 const router = express.Router();
 
@@ -15,5 +15,4 @@ module.exports = function(app){
 }
 
 
-
-router.post('/items', itemController);
+//router.post('/items', itemController);

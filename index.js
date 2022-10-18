@@ -34,10 +34,6 @@ app.listen(port, () => {
   console.log(`API up at: http//localhost: ${port}`)
 })
 
-
-
-
-
 /* mySeedScript.js */
 
 // require the necessary libraries
@@ -71,7 +67,10 @@ async function seedDB() {
 
         for (let i = 0; i < 100; i++) {
             const firstName = faker.name.firstName();
-            const age = faker.date.birthdate()
+            const age = faker.datatype.number({
+              'min': 18,
+              'max': 50
+          });
             let grocerystore = {
               name: firstName,
               age: age
