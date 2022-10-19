@@ -13,13 +13,16 @@ const MongoClient = require("mongodb").MongoClient;
 
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost:27017/peopleApiDb")
+//mongoose.connect("mongodb://localhost:27017/peopleApiDb")
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 require("./routes/allRoutes")(app)
+require("./routes/loginRoutes")(app)
+require("./routes/signupRoutes")(app)
+
 
 
 /*
@@ -42,6 +45,11 @@ app.listen(port, () => {
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+app.get('/peoples', (req,res)=>{
+  res.send(["Peeter Paan", "33"])
+})
+
 
 async function seedDB() {
     // Connection URL
