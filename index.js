@@ -13,7 +13,7 @@ const MongoClient = require("mongodb").MongoClient;
 
 
 mongoose.Promise = global.Promise
-//mongoose.connect("mongodb://localhost:27017/peopleApiDb")
+mongoose.connect("mongodb://localhost:27017/peopleApiDb")
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))

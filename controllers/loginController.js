@@ -31,7 +31,6 @@ const handleErrors = (err) => {
 
   if (err.message.includes('user validation failed')) {
     Object.values(err.errors).forEach(({ properties }) => {
-
       errors[properties.path] = properties.message;
     });
   }
@@ -52,7 +51,7 @@ exports.loginInfo = async (req, res, next) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-   res.redirect("ticketsadd")
+   res.redirect("peoplesadd")
   } 
   catch (err) {
     const errors = handleErrors(err);
@@ -62,6 +61,4 @@ exports.loginInfo = async (req, res, next) => {
 
 }
 
-exports.loginPage=(req, res) => {
-  res.render('login');
-}
+exports.loginPage=(req, res) => {res.sendFile('login.html', { root: '.' })}

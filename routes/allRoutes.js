@@ -9,9 +9,9 @@ module.exports = function(app){
     .post(peoplesList.createNew)                 //Create 
 
     app.route("/peoples/:id")
-    .get(peoplesList.getById)                  // Read
+    .get(peoplesList.getById)                  //Read
     .put(peoplesList.editById)                 //Update
-    .delete(peoplesList.deleteById)            // Delete
+    .delete(peoplesList.deleteById)            //Delete
 }
 
 
