@@ -2,10 +2,13 @@ const {faker} = require("@faker-js/faker")
 const mongoose = require("mongoose")
 const People = mongoose.model("People")
 
-const peoples = []
 
 exports.getAll = (req, res) => {
+    console.log("getAll")
     People.find({}, (err, peoples) => {
+        console.log("err",err)
+        console.log("peoples", peoples)
+
         if (err) {
             res.status(400).send(err)
         } else { res.json(peoples) }

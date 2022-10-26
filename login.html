@@ -1,38 +1,56 @@
-<html bs-app-theme="dark">
+<!DOCTYPE html>
+<!-- === Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== Iconscout CSS ===== -->
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+  <!-- ===== CSS ===== -->
+  <link rel="stylesheet" href="css/style.css">
+
   <title>Login</title>
-  <link rel="stylesheet" href="https://bootstrapstudio.io/demo//embed//bootstrap/5/freelancer/bootstrap.min.css">
-  <link rel="stylesheet" href="css/signup.css">
-  <style bs-system-element="" bs-hidden=""></style>
-  <style bs-system-element="" bs-hidden=""></style>
 </head>
 
 <body>
-  <section id="contact">
-    <div class="container">
-      <h2 class="text-uppercase text-center text-secondary mb-3">Login</h2>
-      <div class="row">
-        <div class="col-lg-3 mx-auto">
-          <form action="/signup" method="POST">
-            <div class="control-group">
-              <div class="mb-2 form-floating controls pb-2"><input type="email" name="email"
-                  placeholder="enter your email" style="width: 306px;">
-              </div>
-              </div>
-              <div class="control-group">
-                <div class="mb-0 form-floating controls pb-2"><input type="password" name="password"
-                    placeholder="enter your password" style="width: 306px;"></div>
-              </div>
 
-              <div id="success"></div>
-              <div><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit"
-                  style="width: 306px;">Login</button>
-              </div>
+  <div class="container">
+    <div class="forms">
+      <div class="form login">
+        <span class="title">Login</span>
 
-              
+        <form action="#">
+          <div class="input-field">
+            <input type="text" placeholder="Enter your email" required>
+            <i class="uil uil-envelope icon"></i>
+          </div>
+          <div class="input-field">
+            <input type="password" class="password" placeholder="Enter your password" required>
+            <i class="uil uil-lock icon"></i>
+            <i class="uil uil-eye-slash showHidePw"></i>
+          </div>
+
+          
+
+          </div>
+
+          <div class="input-field button">
+            <input type="button" value="Login">
+          </div>
+        </form>
+
+        <div class="login-signup">
+          <span class="text">Not a member?
+            <a href="/signup.html" class="text signup-link">Signup Now</a>
+          </span>
+        </div>
+      </div>
 
 
-          </form>
+</body>
+
+</html>

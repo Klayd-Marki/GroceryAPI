@@ -9,7 +9,7 @@ const mongoose = require("mongoose")
 const People = require("./models/peopleModel")
 const bodyParser = require("body-parser")
 const {faker} = require("@faker-js/faker")
-const MongoClient = require("mongodb").MongoClient;
+
 
 
 mongoose.Promise = global.Promise
@@ -19,7 +19,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-require("./routes/allRoutes")(app)
+require("./routes/allRoutes")(app)  
 require("./routes/loginRoutes")(app)
 require("./routes/signupRoutes")(app)
 
@@ -31,17 +31,15 @@ app.get('/people',(req,res)=>{
 })
 */
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
-app.listen(port, () => {
-  console.log(`API up at: http//localhost: ${port}`)
-})
+
+
 
 /* mySeedScript.js */
 
 // require the necessary libraries
 
-
+const MongoClient = require("mongodb").MongoClient;
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -73,7 +71,7 @@ async function seedDB() {
         // make a bunch of time series data
         let timeSeriesData = [];
 
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 10; i++) {
             const firstName = faker.name.firstName();
             const age = faker.datatype.number({
               'min': 18,
@@ -105,3 +103,8 @@ async function seedDB() {
 }
 
 seedDB();
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.listen(port, () => {
+  console.log(`API up at: http//localhost: ${port}`)
+})

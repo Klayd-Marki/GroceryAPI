@@ -1,4 +1,4 @@
-const peoplesList = require("../controllers/mockPeopleController")
+const peoplesList = require("../controllers/peopleController")
 const itemController = require("../controllers/itemController")
 const express = require("express")
 const router = express.Router();

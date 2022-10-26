@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
-const People = mongoose.model("people")
-const  ClassTransformer = require  ('class-transformer')
+require("../models/peopleModel")
+const People = mongoose.model("People")
 const peopleDto = require('../models/peopleDto')
 
 
