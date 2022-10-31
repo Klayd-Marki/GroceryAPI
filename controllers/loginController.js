@@ -1,64 +1,53 @@
-const express = require("express");
-const app = require('express')()
-const jwt = require('jsonwebtoken');
 require ('dotenv').config();
-const SECRET = process.env.SECRET
-const mongoose = require("mongoose")
+const express = require('express');
+const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-const router = express.Router();
-mongoose.Promise = global.Promise
-const User = require("../models/userModel");
+const JWT_SECRET = process.env.JWT_SECRET
+const bodyParser = require('body-parser');
+const User = require("../Models/userModel");
+const { request } = require('express');
+const app = express();
 
 
 
-const handleErrors = (err) => {
-  console.log(err.message, err.code);
-  let errors = { email: '', password: '' };
-
-  if (err.message === 'incorrect email') {
-    errors.email = 'That email is not registered';
-  }
-
-  if (err.message === 'incorrect password') {
-    errors.password = 'That password is incorrect';
-  }
-
-  if (err.code === 11000) {
-    errors.email = 'that email is already registered';
-    return errors;
-  }
-
-
-  if (err.message.includes('user validation failed')) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
-  }
-
-  return errors;
-}
-const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, SECRET, {
-    expiresIn: maxAge
-  });
+exports.getLoginPage = (req, res) => {
+    res.render('/login')
 };
-exports.loginInfo = async (req, res, next) => {
- 
-  const { email, password } = req.body;
+exports.postLogin = async (req, res, next) => { 
+
+  let {  email, password } = req.body;
+
+  let existingUser;
 
   try {
-    const user = await User.login(email, password);
-    const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.redirect("peoplesadd")
-  } 
-  catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    existingUser = await User.findOne({ email: email});
+  } catch {
+     return res.status(400).json((err))
   }
 
 
-}
+  if (!existingUser || !await bcrypt.compare(req.body.password,existingUser.password)) {
 
-exports.loginPage=(req, res) => {res.sendFile('login.html', { root: '.' })}
+    const error = Error("Wrong details please check at once");  
+    return res.status(400).json(next(error))
+
+  }
+
+  let token;
+
+  try {
+    //Creating jwt token
+    token = jwt.sign(
+      { userId: existingUser.id, email: existingUser.email, role: existingUser.role },
+      JWT_SECRET,
+      { expiresIn: "2 days" }
+    );
+  } catch (err) {
+    console.log(err);
+    const error = new Error("Error! Something went wrong.");
+    return next(error);
+  }
+
+    console.log(token);
+    res.redirect('index')
+    };

@@ -1,67 +1,50 @@
-const express = require("express");
-const app = require('express')()
-
 require('dotenv').config();
-const SECRET = process.env.SECRET
-const mongoose = require("mongoose")
+const express = require('express');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-
-const router = express.Router();
-mongoose.Promise = global.Promise
-const User = mongoose.model("User")
-
-exports.signupPage = (req, res) => {
-  res.sendFile('signup.html', { root: '.' })
-}
-const handleErrors = (err) => {
-  console.log(err.message, err.code);
-  let errors = { email: '', password: '' };
-
-  if (err.message === 'incorrect email') {
-    errors.email = 'That email is not registered';
-  }
-
-  if (err.message === 'incorrect password') {
-    errors.password = 'That password is incorrect';
-  }
-
-  if (err.code === 11000) {
-    errors.email = 'that email is already registered';
-    return errors;
-  }
+const JWT_SECRET = process.env.JWT_SECRET
+const bodyParser = require('body-parser');
+const User = require("../Models/userModel");
+const { request } = require('express');
+const app = express();
 
 
-  if (err.message.includes('user validation failed')) {
-    Object.values(err.errors).forEach(({ properties }) => {
 
-      errors[properties.path] = properties.message;
+exports.signupInfo = (req, res) => {
+    res.render('/signup');
+};
+
+exports.signupPage = async (req, res, next) => {
+    console.log("Register body: ", req.body);
+    const { name, email, password, role } = req.body;
+    const newUser = User({
+        name,
+        email,
+        password,
+        role,
     });
-  }
-  
-  return errors;
-}
-const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, 'net juss secret', {
-    expiresIn: maxAge
-  });
+
+    try {
+        await newUser.save();
+    } catch (err) {
+        res.status(401).json(next(err))
+
+
+    }
+    let token;
+
+    try {
+        token = jwt.sign(
+            { userId: newUser.id, email: newUser.email, role: newUser.role },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+    } catch (err) {
+        console.log(JWT_SECRET);
+        const error = new Error("Error! Something went wrong.");
+        return next(error);
+    }
+
+    res.redirect('/login')
+
 };
-// Handling post request
-exports.signupInfo = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.create({ email, password });
-    const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
-  }
-  catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
-  }
-};
-
-
-

@@ -29,11 +29,6 @@ exports.mainPage = (req, res) => {
   res.render('index');
 };
 
-exports.locationsPage = (req, res) => {
-
-  res.render('location');
-}
-
 
 /*exports.addTickets =  requireAuth ,(req, res) => {  
   const token = req.cookies.jwt;

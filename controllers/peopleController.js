@@ -18,7 +18,7 @@ exports.getAll = (req, res) => {
 
 exports.createNew = (req, res) => {  
     console.log(req.body);   //Create
-    const new_people = new people(req.body)
+    const new_people = new People(req.body)
     new_people.save((err, people) => {
         if (err) {
             res.status(400).send(err)
