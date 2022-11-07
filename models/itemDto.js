@@ -1,4 +1,4 @@
-module.exports = class PeopleDTO {
+module.exports = class ItemDTO {
     id;
     name;
     category;

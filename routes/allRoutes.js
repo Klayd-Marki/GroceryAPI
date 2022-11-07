@@ -1,5 +1,7 @@
 const peoplesList = require("../controllers/peopleController")
 const loginController = require("../controllers/loginController")
+const itemsController = require("../controllers/itemController")
+const signupController = require("../controllers/signupController")
 const express = require("express")
 
 module.exports = function(app){
@@ -16,6 +18,14 @@ module.exports = function(app){
     app.route("/login")
     .get(loginController.getLoginPage)
     .post(loginController.postLogin)
+
+    app.route("/signup")
+    .get(signupController.getSignUpPage)
+    .post(signupController.postSignUp)
+
+    app.route("/items")
+    .get(itemsController.getMainPage)
+    .post(itemsController.postnewItem)
     
 
 

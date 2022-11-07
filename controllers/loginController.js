@@ -1,4 +1,4 @@
-require ('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
@@ -11,34 +11,34 @@ const app = express();
 
 
 exports.getLoginPage = (req, res) => {
-    res.render('/login')
+  res.render('login');
 };
-exports.postLogin = async (req, res, next) => { 
 
-  let {  email, password } = req.body;
+
+
+exports.postLogin = async (req, res, next) => {
+
+  let { email, password } = req.body;
 
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email: email});
+    existingUser = await User.findOne({ email: email });
   } catch {
-     return res.status(400).json((err))
+    return res.status(400).json((err))
   }
 
 
-  if (!existingUser || !await bcrypt.compare(req.body.password,existingUser.password)) {
-
-    const error = Error("Wrong details please check at once");  
+  if (!existingUser || !await bcrypt.compare(req.body.password, existingUser.password)) {
+    const error = Error("Wrong details please check at once");
     return res.status(400).json(next(error))
-
   }
-
   let token;
 
   try {
     //Creating jwt token
     token = jwt.sign(
-      { userId: existingUser.id, email: existingUser.email, role: existingUser.role },
+      { userId: existingUser.id, email: existingUser.email},
       JWT_SECRET,
       { expiresIn: "2 days" }
     );
@@ -48,6 +48,15 @@ exports.postLogin = async (req, res, next) => {
     return next(error);
   }
 
-    console.log(token);
-    res.redirect('index')
-    };
+  res.status(200).json({
+    success: true,
+    data: {
+      userId: existingUser.id,
+      emai: existingUser.email,
+      token: token
+    },
+  });
+
+};
+
+

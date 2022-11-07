@@ -35,7 +35,7 @@ exports.getById = async function (req, res) {    //Read
         res.status(400).send({ error: "ID must be a positive integer" })
         return
     }
-    people.findOne({_id:(req.params.id)},(err,people)=>{
+    People.findOne({_id:(req.params.id)},(err,people)=>{
         if (err) {
             res.status(400).send(err)
         } else {
@@ -67,7 +67,7 @@ exports.deleteById = function (req, res) {   //Delete
         res.status(400).send({ error: "ID must be a positive integer" })
         return
     }
-    people.deleteOne({_id:(req.params.id)},(err,people)=>{
+    People.deleteOne({_id:(req.params.id)},(err,people)=>{
         if (err) {
             res.status(400).send(err)
         } else {
@@ -76,7 +76,6 @@ exports.deleteById = function (req, res) {   //Delete
     })  
 
 }
-
 
 
 function getBaseUrl(req){

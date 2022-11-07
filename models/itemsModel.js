@@ -10,6 +10,11 @@ const ItemSchema  = new Schema({
         category: {
         type: String,
         lowercase: true
+     },
+     
+        price: {
+        type: Number,
+        lowercase: true
      }
 
     

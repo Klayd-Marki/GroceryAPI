@@ -1,17 +1,18 @@
 
 require("dotenv").config()
-const app = require('express')()
 const cors = require("cors")
-const port = process.env.PORT
+const port = 8000
 const swaggerUi = require('swagger-ui-express')
+const yamljs = require('yamljs');
 const swaggerDocument = require('./docs/swagger.json')
 const mongoose = require("mongoose")
 const People = require("./models/peopleModel")
 const bodyParser = require("body-parser")
 const express = require("express")
 const { faker } = require("@faker-js/faker")
+const secret = process.env.secret
+const app = express()
 
-app.use(express.json())
 
 
 mongoose.Promise = global.Promise
@@ -20,6 +21,7 @@ mongoose.connect("mongodb://localhost:27017/peopleApiDb")
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(express.json())
 
 require("./routes/allRoutes")(app)
 
@@ -87,27 +89,35 @@ async function seedDB() {
     await client.connect();
     console.log("Connected correctly to server");
 
-    const collection = client.db("peopleApiDb").collection("peoples");
+    const collection = client.db("peopleApiDb").collection("items");
 
     // The drop() command destroys all data from a collection.
     // Make sure you run it against proper database and collection.
-    collection.drop();
 
+
+    //     collection.drop();
+
+
+    
     // make a bunch of time series data
     let timeSeriesData = [];
 
     for (let i = 0; i < 10; i++) {
       const firstName = faker.name.firstName();
+      const price = faker.commerce.price(10,100)
       const age = faker.datatype.number({
         'min': 18,
         'max': 50
       });
       let grocerystore = {
         name: firstName,
+        price: price,
         age: age
       }
       timeSeriesData.push(grocerystore)
     }
+
+    
     collection.insertMany(timeSeriesData, (err, result) => {
       if (err) {
       }
@@ -128,6 +138,11 @@ async function seedDB() {
 }
 
 seedDB();
+
+app.set('view engine', 'ejs');
+app.use(express.static('css'))
+
+
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.listen(port, () => {

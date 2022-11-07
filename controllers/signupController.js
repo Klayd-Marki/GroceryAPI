@@ -10,11 +10,11 @@ const app = express();
 
 
 
-exports.signupInfo = (req, res) => {
-    res.render('/signup');
+exports.getSignUpPage = (req, res) => {
+    res.render('signup');
 };
 
-exports.signupPage = async (req, res, next) => {
+exports.postSignUp = async (req, res, next) => {
     console.log("Register body: ", req.body);
     const { name, email, password, role } = req.body;
     const newUser = User({

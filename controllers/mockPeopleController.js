@@ -15,30 +15,19 @@ exports.getAll = (req, res) => {
     })
 }
 
-/*
+
 // FAKER Name
 for (let i = 0; i < 20; i++) {
     const randomName = faker.name.fullName()
     console.log(randomName);
 } 
-console.log("--------------------------------")
-// FAKER material
-for (let i = 0; i < 10; i++) {
-    const randomMaterial = faker.commerce.productMaterial()
-    console.log(randomMaterial);
-} 
-console.log("--------------------------------")
+
 //FAKER price
 for (let i = 0; i < 5; i++) {
     const price = faker.commerce.price(100,1000)
     console.log(price);
 } 
-console.log("--------------------------------")
-//FAKER productName
-for (let i = 0; i < 10; i++) {
-    const productName = faker.commerce.productName()
-    console.log(productName);
-} */
+
 
 
 

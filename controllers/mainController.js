@@ -30,13 +30,6 @@ exports.mainPage = (req, res) => {
 };
 
 
-/*exports.addTickets =  requireAuth ,(req, res) => {  
-  const token = req.cookies.jwt;
-  console.log("tere  add tickets "+token);
-  res.render('ticketsAdd')
-
-  }*/
-
 
 
 exports.logout_get=(req,res)=>{

@@ -1,28 +1,34 @@
-const Task = require('../models/itemsModel');
+require ('dotenv').config();
+const mongoose = require("mongoose")
+require("../models/itemsModel")
+const Item = mongoose.model("Item")
+const itemDto = require('../models/itemDto')
 
-exports.getMainPage = (req, res)=> {
-    Task.fetchTasks(tasks=>{
-         let today = {
-        date: date.getDate(),
-        weekday:  date.getWeekDay()
-    };
-
-    console.log(tasks);
-    res.render('index.ejs', {date: today, toDoItems : tasks}); 
-
-    });
+ 
+exports.getMainPage = (req, res) => {
+    res.render('index')
 };
+
+exports.getAll = (req, res) => {
+    Item.find({}, (err, item) => {
+        if (err) {
+            res.status(400).send(err)
+        } else {
+            res.render("index.html")
+        }
+    })
+}
 
 
 exports.postnewItem= (req, res) => {
-    let item = new Task(req.body.newTask);
-    item.saveTask();
-    res.redirect('/');
+    let item = new item(req.body.newitem);
+    item.saveitem();
+    res.redirect('/items');
 }
 
 exports.deleteItem = (req,res)=>{
     console.log('Call from delete', req.body.checkbox);
-    Task.deleteTask(req.body.checkbox)
+    item.deleteItem(req.body.checkbox)
     res.redirect('/');
 
 } 
