@@ -76,7 +76,7 @@ function getBaseUrl(req) {
   ? 'https' :'http' + `://${req.headers.host}`
 }
 
-async function seedDB() {
+/*async function seedDBPeoples() {
   // Connection URL
   const uri = "mongodb://localhost:27017/peopleApiDb";
 
@@ -89,13 +89,13 @@ async function seedDB() {
     await client.connect();
     console.log("Connected correctly to server");
 
-    const collection = client.db("peopleApiDb").collection("items");
+    const collection = client.db("peopleApiDb").collection("peoples");
 
     // The drop() command destroys all data from a collection.
     // Make sure you run it against proper database and collection.
 
 
-    //     collection.drop();
+    //collection.drop();
 
 
     
@@ -104,17 +104,13 @@ async function seedDB() {
 
     for (let i = 0; i < 10; i++) {
       const firstName = faker.name.firstName();
-      const price = faker.commerce.price(10,100)
-      const age = faker.datatype.number({
-        'min': 18,
-        'max': 50
-      });
-      let grocerystore = {
+      const age = faker.datatype.number({'min': 18,'max': 50});
+      let peoples = {
         name: firstName,
-        price: price,
-        age: age
+        age
+        
       }
-      timeSeriesData.push(grocerystore)
+      timeSeriesData.push(peoples)
     }
 
     
@@ -137,7 +133,71 @@ async function seedDB() {
   }
 }
 
-seedDB();
+//seedDBPeoples();*/
+
+
+
+  async function seedDBItems() {
+  // Connection URL
+  const uri = "mongodb://localhost:27017/peopleApiDb";
+
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  });
+
+  try {
+    await client.connect();
+    console.log("Connected correctly to server");
+
+    const collection = client.db("peopleApiDb").collection("items");
+
+    // The drop() command destroys all data from a collection.
+    // Make sure you run it against proper database and collection.
+
+
+    //collection.drop();
+
+
+    
+    // make a bunch of time series data
+    let timeSeriesData = [];
+
+    for (let i = 0; i < 10; i++) {
+      const name = faker.commerce.product();
+      const price = faker.commerce.price(1, 10)
+      let items = {
+        name: name,
+        price
+        
+      }
+      timeSeriesData.push(items)
+    }
+
+    
+    collection.insertMany(timeSeriesData, (err, result) => {
+      if (err) {
+      }
+      else {
+        console.log("Database seeded! :)");
+        console.log(result);
+      }
+    });
+
+    setTimeout(() => {
+      client.close();
+    }, 1500);
+
+
+  } catch (err) {
+    console.log("SEED error:", err);
+  }
+}
+
+//seedDBItems();
+
+
+
 
 app.set('view engine', 'ejs');
 app.use(express.static('css'))

@@ -2,6 +2,8 @@ const peoplesList = require("../controllers/peopleController")
 const loginController = require("../controllers/loginController")
 const itemsController = require("../controllers/itemController")
 const signupController = require("../controllers/signupController")
+const mainController = require("../controllers/mainController");
+
 const express = require("express")
 
 module.exports = function(app){
@@ -27,7 +29,17 @@ module.exports = function(app){
     .get(itemsController.getMainPage)
     .post(itemsController.postnewItem)
     
+    app.route("/items/:id")
+    .get(itemsController.getById)                  //Read
+    .put(itemsController.editById)                 //Update
+    .delete(itemsController.deleteById)            //Delete
 
+
+    app.route('/index')
+    .get(mainController.getIndexPage);
+
+    app.route('/post')
+    .get(mainController.getPostPage);
 
 
  }
