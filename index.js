@@ -7,10 +7,12 @@ const yamljs = require('yamljs');
 const swaggerDocument = require('./docs/swagger.json')
 const mongoose = require("mongoose")
 const People = require("./models/peopleModel")
+const itemModel = require("./models/itemsModel")
 const bodyParser = require("body-parser")
 const express = require("express")
 const { faker } = require("@faker-js/faker")
-const secret = process.env.secret
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET
 const app = express()
 
 
@@ -196,6 +198,105 @@ function getBaseUrl(req) {
 
 //seedDBItems();
 
+
+/*// make seeding data
+app.get('/seed', (req, res) => {
+  const item = [
+      {name: 'Banana',category:"Fruit", price: 2.99},
+      {name: 'Apple',category:"Fruit", price: 1.79},
+      {name: 'Carrot',category:"Vegetable", price: 5.36},
+      {name: 'Potato',category:"Vegetable", price: 1.11}
+  ];
+
+  itemModel.insertMany(item, (err, docs) => {
+      if(err){
+          res.status(400).send(err);
+      } else{
+          res.status(201).send(docs);
+      }
+  });
+});*/
+
+
+app.post("/login", async (req, res, next) => {
+   
+  let { role, email, password } = req.body;
+  
+  let existingUser;
+  
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch {
+     return res.status(400).json((err))
+  }
+  
+
+  if (!existingUser || !await bcrypt.compare(req.body.password,existingUser.password)) {
+    const error = Error("Wrong details please check at once");
+    return res.status(400).json(next(error))
+  }
+  
+  let token;
+  
+  try {
+    //Creating jwt token
+    token = jwt.sign(
+      { userId: existingUser.id, email: existingUser.email, role: existingUser.role },
+      JWT_SECRET,
+      { expiresIn: "2 days" }
+    );
+  } catch (err) {
+    console.log(err);
+    const error = new Error("Error! Something went wrong.");
+    return next(error);
+  }
+  
+  res.status(200)
+  .json({
+    success: true,
+    data: {
+      role: existingUser.role,
+      userId: existingUser.id,
+      email: existingUser.email,
+      token: token,
+    },
+  });
+  console.log(token);
+});
+
+// Handling post request
+app.post("/signup", async (req, res, next) => {
+  const { name, email, password } = req.body;
+  const newUser = User({
+    name,
+    email,
+    password,
+  });
+
+  try {
+    await newUser.save();
+  } catch (err){
+    res.status(401).json(next(err))
+   
+  }
+  let token;
+
+  try {
+    token = jwt.sign(
+      { userId: newUser.id, email: newUser.email, role: newUser.role },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+  } catch (err) {   
+      console.log(JWT_SECRET);
+    const error = new Error("Error! Something went wrong."); 
+    return next(error);
+  }
+  res.status(201).json({
+    success: true,
+    data: { userId: newUser.id, email: newUser.email, role: newUser.role, token: token },
+  });
+});
 
 
 

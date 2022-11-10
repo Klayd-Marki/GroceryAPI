@@ -26,7 +26,7 @@ module.exports = function(app){
     .post(signupController.postSignUp)
 
     app.route("/items")
-    .get(itemsController.getMainPage)
+    .get(itemsController.getAll)
     .post(itemsController.postnewItem)
     
     app.route("/items/:id")
