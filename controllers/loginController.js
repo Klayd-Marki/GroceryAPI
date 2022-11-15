@@ -6,6 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 const bodyParser = require('body-parser');
 const User = require("../Models/userModel");
 const { request } = require('express');
+const { restart } = require('nodemon');
 const app = express();
 
 
@@ -14,11 +15,9 @@ exports.getLoginPage = (req, res) => {
   res.render('login');
 };
 
-
-
 exports.postLogin = async (req, res, next) => {
 
-  let { email, password } = req.body;
+  const {  email, password } = req.body;
 
   let existingUser;
 
@@ -30,9 +29,12 @@ exports.postLogin = async (req, res, next) => {
 
 
   if (!existingUser || !await bcrypt.compare(req.body.password, existingUser.password)) {
+
     const error = Error("Wrong details please check at once");
     return res.status(400).json(next(error))
+
   }
+
   let token;
 
   try {
@@ -48,15 +50,10 @@ exports.postLogin = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({
-    success: true,
-    data: {
-      userId: existingUser.id,
-      emai: existingUser.email,
-      token: token
-    },
-  });
+  res.cookie('jwt', token, { httpOnly: true, maxAge: 2 * 24 * 60 * 60 * 1000 })
+
+  res.redirect('/index')
+
+  console.log(token);
 
 };
-
-

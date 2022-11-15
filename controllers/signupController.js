@@ -16,12 +16,12 @@ exports.getSignUpPage = (req, res) => {
 
 exports.postSignUp = async (req, res, next) => {
     console.log("Register body: ", req.body);
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     const newUser = User({
         name,
         email,
         password,
-        role,
+        
     });
 
     try {
@@ -35,7 +35,7 @@ exports.postSignUp = async (req, res, next) => {
 
     try {
         token = jwt.sign(
-            { userId: newUser.id, email: newUser.email, role: newUser.role },
+            { userId: newUser.id, email: newUser.email},
             JWT_SECRET,
             { expiresIn: "1h" }
         );

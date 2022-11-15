@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-  <html lang="en">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -16,27 +16,16 @@
 <body>
 
 
-
-  <div id="app">
-    <div class="navbar">
-
-      <div class="info">
-        <a class="active" href="index">Item List</a>
-        <a class="active" href="peoples">Peoples List</a>
-        <a href="post">Post Ad</a>    
-      </div>
-    </div>
-
     <table id="peoplesTable" class="peoplesShow table-bordered table-hover ">
       <tr>
-        <th>Name</th>
-        <th>Age </th>
-        
+        <th>people name</th>
+        <th>people age </th>
+
       </tr>
       <tr v-for="people in peoples">
         <td @click="getpeople(people._id)" class="peoplename">{{people.name}}</td>
-        <td class="category ">{{people.category}}</td>
-        
+        <td class="age">{{people.age}}</td>
+
       </tr>
     </table>
 
@@ -53,22 +42,22 @@
             <h5 class="modal-title">peoples details<h5>
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
-          </div> 
+          </div>
           <div class="modal-body">
             <table>
               <tr>
                 <th>id</th>
-                <td>{{itemInModal.id}}</td>
+                <td>{{peopleInModal.id}}</td>
               </tr>
               <tr>
                 <th>name</th>
-                <td>{{itemInModal.name}}</td>
+                <td>{{peopleInModal.name}}</td>
               </tr>
               <tr>
                 <th>category</th>
-                <td>{{itemInModal.catecory}}</td>
+                <td>{{peopleInModal.age}}</td>
               </tr>
-              
+
 
             </table>
             <button type="button bg-dark" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -96,26 +85,25 @@
   createApp({
     data() {
       return {
-        itemInModal: {},
-        items: []
+        peopleInModal: {},
+        peoples: []
       }
     },
     async created() {
-      this.items = await (await fetch('http://localhost:8000/peoples')).json();// hiljem items
+      this.peoples = await (await fetch('http://localhost:8000/peoples')).json(); 
 
 
 
     },
     methods: {
-      getitem: async function (id) {
-        this.itemInModal = await (await fetch(`http://localhost:8000/peoples/${id}`)).json()// hiljem items
-        console.log(this.itemInModal);
-        const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
-        itemInfoModal.show()
+      getpeople: async function (id) {
+        this.peopleInModal = await (await fetch(`http://localhost:8000/peoples/${id}`)).json()
+        console.log(this.peopleInModal);
+        const peopleInfoModal = new bootstrap.Modal(document.getElementById('peopleInfoModal'), {})
+        peopleInfoModal.show()
       }
     }
   }).mount('#app')
-
 
 
 
@@ -124,4 +112,4 @@
 </script>
 </body>
 
-</html>-->
+</html>

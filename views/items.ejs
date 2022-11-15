@@ -42,7 +42,7 @@
             <h5 class="modal-title">items details<h5>
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
-          </div> 
+          </div>
           <div class="modal-body">
             <table>
               <tr>
@@ -89,7 +89,7 @@
       }
     },
     async created() {
-      this.items = await (await fetch('http://localhost:8000/items')).json();// hiljem items
+      this.items = await (await fetch('http://localhost:8000/items')).json();
       //console.log(items)
 
 
@@ -97,7 +97,7 @@
     },
     methods: {
       getitem: async function (id) {
-        this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()// hiljem items
+        this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
         console.log(this.itemInModal);
         const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
         itemInfoModal.show()

@@ -220,7 +220,7 @@ app.get('/seed', (req, res) => {
 
 app.post("/login", async (req, res, next) => {
    
-  let { role, email, password } = req.body;
+  let { email, password } = req.body;
   
   let existingUser;
   
@@ -241,7 +241,7 @@ app.post("/login", async (req, res, next) => {
   try {
     //Creating jwt token
     token = jwt.sign(
-      { userId: existingUser.id, email: existingUser.email, role: existingUser.role },
+      { userId: existingUser.id, email: existingUser.email},
       JWT_SECRET,
       { expiresIn: "2 days" }
     );
@@ -255,7 +255,6 @@ app.post("/login", async (req, res, next) => {
   .json({
     success: true,
     data: {
-      role: existingUser.role,
       userId: existingUser.id,
       email: existingUser.email,
       token: token,
@@ -283,7 +282,7 @@ app.post("/signup", async (req, res, next) => {
 
   try {
     token = jwt.sign(
-      { userId: newUser.id, email: newUser.email, role: newUser.role },
+      { userId: newUser.id, email: newUser.email },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -294,7 +293,7 @@ app.post("/signup", async (req, res, next) => {
   }
   res.status(201).json({
     success: true,
-    data: { userId: newUser.id, email: newUser.email, role: newUser.role, token: token },
+    data: { userId: newUser.id, email: newUser.email, token: token },
   });
 });
 
