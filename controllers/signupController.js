@@ -21,8 +21,15 @@ exports.postSignUp = async (req, res, next) => {
         name,
         email,
         password,
-        
+
     });
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+        res.status(400).json('user exists already');
+        console.log('this email is already in use  ');
+    }
 
     try {
         await newUser.save();
@@ -35,7 +42,7 @@ exports.postSignUp = async (req, res, next) => {
 
     try {
         token = jwt.sign(
-            { userId: newUser.id, email: newUser.email},
+            { userId: newUser.id, email: newUser.email },
             JWT_SECRET,
             { expiresIn: "1h" }
         );
@@ -47,4 +54,4 @@ exports.postSignUp = async (req, res, next) => {
 
     res.redirect('/login')
 
-};
+}
