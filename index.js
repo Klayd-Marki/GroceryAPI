@@ -2,8 +2,8 @@
 require("dotenv").config()
 const cors = require("cors")
 const port = 8000
+const port1 = 8088
 const swaggerUi = require('swagger-ui-express')
-const yamljs = require('yamljs');
 const swaggerDocument = require('./docs/swagger.json')
 const mongoose = require("mongoose")
 const People = require("./models/peopleModel")
@@ -13,6 +13,9 @@ const express = require("express")
 const { faker } = require("@faker-js/faker")
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET
+const crypto = require('crypto')
+const helmet = require('helmet')
+const { config } = require("process")
 const app = express()
 
 
@@ -170,11 +173,12 @@ function getBaseUrl(req) {
       const price = faker.commerce.price(1, 10)
       let items = {
         name: name,
-        price
+        price: price,
         
       }
       timeSeriesData.push(items)
     }
+    
 
     
     collection.insertMany(timeSeriesData, (err, result) => {
@@ -196,7 +200,7 @@ function getBaseUrl(req) {
   }
 }
 
-//seedDBItems();
+seedDBItems();
 
 
 /*// make seeding data
@@ -297,10 +301,47 @@ app.post("/signup", async (req, res, next) => {
   });
 });
 
+app.get('/accessResource', (req, res)=>{  
+      
+  const token2 = req.headers.authorization
+  // if token is invalid or not present in the header then it will return 401
+  
+  if(token2==undefined){
+      const error = Error("Wrong details please check at once");
+     
+   return res.status(401).json({message: "Unauthorized"})
+  }
+  const token = token2.split(' ')[1]; 
+  //Authorization: 'Bearer TOKEN'
+  
+
+
+   
+  // verify a token symmetric
+  jwt.verify(token, JWT_SECRET, function(err, decoded) {
+  });
+
+  if(!token)
+  {
+      res.status(200).json({success:false, message: "Error! Token was not provided."});
+  }
+  //Decoding the token
+  const decodedToken = jwt.verify(token,JWT_SECRET, function(err, decoded) {
+      if(err){
+          res.status(400).json({success:false, message: "Error! Token is invalid."});
+      }
+      return decoded;
+  });
+
+  res.status(200).json({success:true, data:{userId:decodedToken.userId,
+   email:decodedToken.email}});
+}),
+
+
 
 
 app.set('view engine', 'ejs');
-app.use(express.static('css'))
+app.use(express.static('public'))
 
 
 
@@ -308,3 +349,27 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.listen(port, () => {
   console.log(`API up at: http//localhost: ${port}`)
 })
+
+app.use(function(req, res, next) {
+  res.locals.nonce = crypto.randomBytes(16).toString("hex");
+  next();
+});
+
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+     scriptSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js",
+          "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+          "'sha256-s1vVw8TksVGpNwieRf5qwR0mx22jlDKFBK8U2XuzbFo='", 
+          (req,res)=>`'nonce-${res.locals.nonce}'`,
+          `${process.env.development?"'unsafe-eval'":"production"}`
+      ],
+      defaultSrc:[
+          "http://localhost:8088"
+      ]
+  },
+}))
+app.use(express.static('css'))
+app.listen(process.env.PORT1, () => console.log(`FRONT is listening on port ${process.env.PORT1}!`))

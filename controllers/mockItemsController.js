@@ -3,7 +3,21 @@ const mongoose = require("mongoose")
 const People = mongoose.model("People")
 
 
-exports.getAll = (req, res) => {
+
+const item = [
+    {id:1, name: 'onion',category:"Vegetable", price: 2.99},
+    {id:1, name: 'Apple',category:"Fruit", price: 4.19},
+    {id:1, name: 'Carrot',category:"Vegetable", price: 2.99},
+    {id:1, name: 'Potato',category:"Vegetable", price: 2.99},
+    {id:1, name: 'Cherry',category:"Fruit", price: 6.99},
+    {id:1, name: 'Strawberry',category:"Fruit", price: 7.99},
+    {id:1, name: 'Cabbage',category:"Vegetable", price: 2.99},
+];
+
+
+
+
+/*exports.getAll = (req, res) => {
     console.log("getAll")
     People.find({}, (err, peoples) => {
         console.log("err",err)
@@ -13,7 +27,11 @@ exports.getAll = (req, res) => {
             res.status(400).send(err)
         } else { res.json(peoples) }
     })
-}
+}*/
+
+exports.getAll = function(req, res) {
+    res.send(item);
+};
 
 
 // FAKER Name

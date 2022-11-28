@@ -62,12 +62,12 @@
       }
     },
       async created(){
-          this.items= await (await fetch('http://localhost:3000/items')).json();
+          this.items= await (await fetch('http://localhost:8000/items')).json();
       
     },
     methods: {
         getitem: async function (id) {
-            this.itemInModal = await (await fetch (`http://localhost:3000/items/${id}`)).json()
+            this.itemInModal = await (await fetch (`http://localhost:8000/items/${id}`)).json()
             console.log(this.itemInModal);
             const  itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'),{})
             itemInfoModal.show()

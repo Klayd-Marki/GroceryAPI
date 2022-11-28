@@ -42,40 +42,51 @@ exports.getById = async function (req, res) {    //Read
         if (err) {
             res.status(400).send(err)
         } else {
-            res.status(200).json(new itemDto(item))
+            res.status(200).json(new itemDto(Item))
         }
     })      
     return
 }
-exports.editById = function (req, res) {     //Update
+exports.getById = function(req, res) {
+
     if (!(parseInt(req.params.id) > 0)) {
         res.status(400).send({ error: "ID must be a positive integer" })
         return
     }
-   console.log(req.body,'selgitus');
-   Item.updateOne({_id:req.params.id},{$set: req.body},null,(err,item)=>{
-        
+    Item.findOne({_id:(req.params.id)},(err,item)=>{
         if (err) {
             res.status(400).send(err)
         } else {
+            res.status(200).json(new itemDto(item))
+        }
+    })      
+    return
+};
+
+exports.editById = function(req, res) {
+    // edit item by id
+    Item.updateOne({_id: req.params.itemId},{$set: req.body}, null, (err, item) => {
+        if (err) {
+            res.send(err);
+        } else{
             console.log(item);
-            res.status(200).json(item)
+            res.status(200).json(item);
         }
-    })
-    }
+        
+    });
 
+    
+};
 
-exports.deleteById = function (req, res) {   //Delete
-    if (!(parseInt(req.params.id) > 0)) {
-        res.status(400).send({ error: "ID must be a positive integer" })
-        return
-    }
-    Item.deleteOne({_id:(req.params.id)},(err,item)=>{
+exports.deleteById = function(req, res) {
+    // delete item by id
+    Item.deleteOne({
+        _id: req.params.itemId
+    }, (err, item) => {
         if (err) {
-            res.status(400).send(err)
-        } else {
-            res.status(200).json()
+            res.send(err);
         }
-    })  
+        res.json({ message: 'Item deleted successfully' });
+    });
 
-}
+};

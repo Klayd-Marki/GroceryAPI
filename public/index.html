@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <title>Items List</title>
+</head>
+
+<body>
+  <div id="app">
+    <nav>
+    <button v-if="token===''" @click="showLogin" href="">Login</button>
+    <span v-else>Logged in <button @click="doLogOff" href="">log off</button></span>      
+    </nav>
+    <table id="itemsTable" class="table table-striped table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th v-if="isAdmin"></th>
+      </tr>
+      <tr v-for="item in items">
+        <td @click="getitem(item._id)">{{item.name}}</td>
+        <td>{{item.price}}</td>        
+        <td v-if="isAdmin">
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" :data-bs-target="`#delete${item._id}`" aria-expanded="false" :aria-controls="`delete${item._id}`">
+            Delete
+          </button>
+          <div class="collapse position-relative" :id="`delete${item._id}`">
+            <div class="card card-body position-absolute top-0 start-0">
+              Do you want to delete {{item.name}}?
+              <div class="btn-group btn-group-sm !spacing" role="group" aria-label="Basic example">
+                  <a class="btn btn-success btn-sm " href="#" role="button" data-bs-toggle="collapse" :data-bs-target="`#delete${item._id}`">No</a>
+              <a class="btn btn-danger btn-sm " href="#" role="button">Yes</a>
+              </div>
+
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div id="itemInfoModal" class="modal fade modal-sm" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="itemInfoModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">item Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table>
+              <tr>
+                <th>ID</th>
+                <td>{{itemInModal._id}}</td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <td>{{itemInModal.name}}</td>
+              </tr>
+              <tr>
+                <th>Price</th>
+                <td>{{itemInModal.price}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="loginModal" class="modal fade modal-sm" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Log in</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-danger" v-if="loginError">{{loginError}}</div>
+            <form class="form-group" @submit.prevent="doLogIn" >
+               <input v-model="loginName" type="email" class="form-control" placeholder="Email" autocomplete="username" required>
+               <input v-model="loginPass" type="password" class="form-control" placeholder="Password" autocomplete="current-password" required>
+               <input type="submit" class="btn btn-primary" value="Log in">
+            </form>
+         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <script type="importmap">{ "imports": { "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js" } }</script>
+  <script type="module" src="rest-client.js" nonce="{{response.locals.nonce}}">
+  </script>
+</body>
+
+</html>

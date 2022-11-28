@@ -52,7 +52,7 @@ exports.postLogin = async (req, res, next) => {
 
   res.cookie('jwt', token, { httpOnly: true, maxAge: 2 * 24 * 60 * 60 * 1000 })
 
-  res.redirect('/index')
+  res.redirect('/')
 
   console.log(token);
 
