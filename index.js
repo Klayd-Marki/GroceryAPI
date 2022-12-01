@@ -167,9 +167,9 @@ function getBaseUrl(req) {
     // make a bunch of time series data
     let timeSeriesData = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
       const name = faker.commerce.product();
-      const price = faker.commerce.price(1, 10)
+      const price = faker.finance.amount(5, 10, 2,);
       let items = {
         name: name,
         price: price,

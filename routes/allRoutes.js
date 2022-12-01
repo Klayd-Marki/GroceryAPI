@@ -35,7 +35,7 @@ module.exports = function(app){
     .delete(itemsController.deleteById)            //Delete
 
 
-    app.route('/index')
+    app.route('/')
     .get(mainController.getIndexPage);
 
     app.route('/post')

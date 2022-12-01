@@ -30,9 +30,18 @@
         </div>
         <div class="model-body">
           <table class="table table-striped">
-            <tr><th>ID</th><td>{{itemInModel.id}}</td></tr>
-            <tr><th>Name</th><td>{{itemInModel.name}}</td></tr>
-            <tr><th>Price</th><td>{{itemInModel.price}}</td></tr>
+            <tr>
+              <th>ID</th>
+              <td>{{itemInModel.id}}</td>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <td>{{itemInModel.name}}</td>
+            </tr>
+            <tr>
+              <th>Price</th>
+              <td>{{itemInModel.price}}</td>
+            </tr>
 
           </table>
         </div>
@@ -69,14 +78,14 @@
           items: []
         }
       },
-      
+
       async created() {
         this.items = await (await fetch("http://localhost:8080/peoples")).json()
       },
       methods: {
-        getName: async function(id){
+        getName: async function (id) {
           this.itemInfoModel = await (await fetch('http://localhost:8080/peoples/${id}')).json()
-          let itemInfoModel= new bootstrap.Model(document.getElementById('itemInfoModel'), {})
+          let itemInfoModel = new bootstrap.Model(document.getElementById('itemInfoModel'), {})
           itemInfoModel.show()
         }
       }
