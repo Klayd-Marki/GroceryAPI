@@ -1,7 +1,7 @@
 require("dotenv").config()
 const cors = require("cors")
 const port = 8000
-const port1 = 8088
+const port1 = process.env.PORT1
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./docs/swagger.json')
 const mongoose = require("mongoose")
@@ -20,7 +20,7 @@ const app = express()
 
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost:27017/peopleApiDb")
+mongoose.connect("mongodb://localhost:27017/GroceryStoreAPI")
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -82,7 +82,7 @@ function getBaseUrl(req) {
 
 /*async function seedDBPeoples() {
   // Connection URL
-  const uri = "mongodb://localhost:27017/peopleApiDb";
+  const uri = "mongodb://localhost:27017/GroceryStoreAPI";
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -93,7 +93,7 @@ function getBaseUrl(req) {
     await client.connect();
     console.log("Connected correctly to server");
 
-    const collection = client.db("peopleApiDb").collection("peoples");
+    const collection = client.db("GroceryStoreAPI").collection("peoples");
 
     // The drop() command destroys all data from a collection.
     // Make sure you run it against proper database and collection.
@@ -143,7 +143,7 @@ function getBaseUrl(req) {
 
   async function seedDBItems() {
   // Connection URL
-  const uri = "mongodb://localhost:27017/peopleApiDb";
+  const uri = "mongodb://localhost:27017/GroceryStoreAPI";
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -199,7 +199,7 @@ function getBaseUrl(req) {
   }
 }
 
-seedDBItems();
+//seedDBItems();
 
 
 /*// make seeding data
