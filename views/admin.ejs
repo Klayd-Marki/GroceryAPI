@@ -1,0 +1,57 @@
+
+<body>
+    <div id="app">
+
+
+    <!-- MAIN --->
+    <main class="main main-content">
+        <div class="header">
+            <h1>Hello <%= locals.user.email %> </h1>
+            <p><a href="<%= title %>" class="btn btn-primary" role="button"><%= title %></a></p> 
+        </div>
+        
+        <div class="overview-cards">
+            <div class="card product-card">
+                <div class="title">
+                    <h2>Items</h2>
+                </div>
+                <span class="content product-content">
+                    <svg>
+                   
+                    </svg>
+                    <div class="number">
+                        <tr v-for="item in items">
+                            <td>
+                              {{ items.length }}
+                            </td>
+                          </tr>
+                    </div>
+                </span>
+            </div>
+            <div class="card user-card">
+                <div class="title">
+                    <h2>Peoples</h2>
+                </div>
+                <span class="content user-content">
+                    <svg>
+                        
+                    </svg>
+                    <div class="number">
+                        <tr v-for="people in peoples">
+                            <td>
+                              {{peoples.length }}
+                            </td>
+                          </tr>
+                    </div>
+                </span>
+            </div>
+            
+        </div>
+    </main>
+
+    
+         
+</body>
+<link rel="stylesheet" href="./admin.css" type="text/css">
+</html>
+

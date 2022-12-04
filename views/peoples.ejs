@@ -1,64 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+<div id="app">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- CSS only -->
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <title>peoples list</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>locations</title>
 
-</head>
-
-<body>
+  </head>
 
 
-    <table id="peoplesTable" class="peoplesShow table-bordered table-hover ">
-      <tr>
-        <th>people name</th>
-        <th>people age </th>
+  <%- include('partials/mainHeader') %>
 
-      </tr>
-      <tr v-for="people in peoples">
-        <td @click="getpeople(people._id)" class="peoplename">{{people.name}}</td>
-        <td class="age">{{people.age}}</td>
+    <div v-for="people in peoples">
+      <div class="container col-sm-6 col-xs-6 ">
+        <div class="list mb-2 ">
+          <div class="list-header">
+            <a class="list-header-image">
+              <img :src="people.image">
+            </a>
+          </div>
+          <div class="list-content">
+            <h2><a class="text-black" @click="getLocation(people._id)">{{people.name}}</a></h2>
+            <span class="list-meta">
+              <span class="list-meta-people"><i class="fas ticketprice"></i> Gender: {{people.gender}}</span>
 
-      </tr>
-    </table>
+            </span>
+            <p class="ticketcast">Age: {{people.age}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
 
-
-    <!-- Details-->
-    <div class="modal fade modal-sm " id="peopleInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-      aria-labelledby="peopleInfoModal" aria-hidden="true">
+    <div class="modal fade modal-sm " id="locationInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="locationInfoModal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header ">
-            <h5 class="modal-title">peoples details<h5>
+            <h5 class="modal-title">Peoples<h5>
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
           </div>
           <div class="modal-body">
             <table>
               <tr>
-                <th>id</th>
-                <td>{{peopleInModal.id}}</td>
+                <th>ID</th>
+                <td>{{InModal.id}}</td>
               </tr>
               <tr>
                 <th>name</th>
-                <td>{{peopleInModal.name}}</td>
+                <td>{{InModal.name}}</td>
               </tr>
               <tr>
-                <th>category</th>
-                <td>{{peopleInModal.age}}</td>
+                <th>gender</th>
+                <td>{{InModal.gender}}</td>
               </tr>
-
-
+              <tr>
+                <th>age</th>
+                <td>{{InModal.age}}</td>
+              </tr>
             </table>
             <button type="button bg-dark" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
@@ -67,11 +73,7 @@
         </div>
       </div>
     </div>
-  </div>
-
-
-</body>
-
+</div>
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
@@ -90,13 +92,11 @@
       }
     },
     async created() {
-      this.peoples = await (await fetch('http://localhost:8000/peoples')).json(); 
-
-
+      this.peoples = await (await fetch('http://localhost:8000/peoples')).json();
 
     },
     methods: {
-      getpeople: async function (id) {
+      getcar: async function (id) {
         this.peopleInModal = await (await fetch(`http://localhost:8000/peoples/${id}`)).json()
         console.log(this.peopleInModal);
         const peopleInfoModal = new bootstrap.Modal(document.getElementById('peopleInfoModal'), {})
@@ -104,12 +104,4 @@
       }
     }
   }).mount('#app')
-
-
-
 </script>
-
-</script>
-</body>
-
-</html>

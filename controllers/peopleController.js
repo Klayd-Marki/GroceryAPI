@@ -11,7 +11,7 @@ exports.getAll = (req, res) => {
         } else {
             res.json(people)
         }
-    })
+    }) 
 }
 
 

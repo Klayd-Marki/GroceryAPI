@@ -66,21 +66,21 @@ app.get('/peoples', (req, res) => {
     .send(people)
 })
 
-app.delete('/peoples/:id',(req,res)=>{
-  if (typeof peoples[req.params.is -1]==='undefined') {
-    return res.status(404).send({error: "People not found"}) 
+app.delete('/peoples/:id', (req, res) => {
+  if (typeof peoples[req.params.is - 1] === 'undefined') {
+    return res.status(404).send({ error: "People not found" })
   }
-  peoples.splice(req.params.id-1, 1)
-  res.status(204).send({error: "No content"})
+  peoples.splice(req.params.id - 1, 1)
+  res.status(204).send({ error: "No content" })
 })
 
 
 function getBaseUrl(req) {
   return req.connection && req.connection.encrypted
-  ? 'https' :'http' + `://${req.headers.host}`
+    ? 'https' : 'http' + `://${req.headers.host}`
 }
 
-/*async function seedDBPeoples() {
+async function seedDBPeoples() {
   // Connection URL
   const uri = "mongodb://localhost:27017/GroceryStoreAPI";
 
@@ -102,22 +102,24 @@ function getBaseUrl(req) {
     //collection.drop();
 
 
-    
+
     // make a bunch of time series data
     let timeSeriesData = [];
 
     for (let i = 0; i < 10; i++) {
-      const firstName = faker.name.firstName();
-      const age = faker.datatype.number({'min': 18,'max': 50});
+      const name = faker.name.firstName();
+      const age = faker.datatype.number({ min: 18, max: 70 })
+      const image = faker.image.people()
       let peoples = {
-        name: firstName,
-        age
-        
+        name,
+        age,
+        image
+
       }
       timeSeriesData.push(peoples)
     }
 
-    
+
     collection.insertMany(timeSeriesData, (err, result) => {
       if (err) {
       }
@@ -137,67 +139,67 @@ function getBaseUrl(req) {
   }
 }
 
-//seedDBPeoples();*/
+seedDBPeoples();
 
 
 
-  async function seedDBItems() {
-  // Connection URL
-  const uri = "mongodb://localhost:27017/GroceryStoreAPI";
+//   async function seedDBItems() {
+//   Connection URL
+//   const uri = "mongodb://localhost:27017/GroceryStoreAPI";
 
-  const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    // useUnifiedTopology: true,
-  });
+//   const client = new MongoClient(uri, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
 
-  try {
-    await client.connect();
-    console.log("Connected correctly to server");
+//   try {
+//     await client.connect();
+//     console.log("Connected correctly to server");
 
-    const collection = client.db("peopleApiDb").collection("items");
+//     const collection = client.db("peopleApiDb").collection("items");
 
-    // The drop() command destroys all data from a collection.
-    // Make sure you run it against proper database and collection.
-
-
-    //collection.drop();
+//     The drop() command destroys all data from a collection.
+//     Make sure you run it against proper database and collection.
 
 
-    
-    // make a bunch of time series data
-    let timeSeriesData = [];
-
-    for (let i = 0; i < 20; i++) {
-      const name = faker.commerce.product();
-      const price = faker.finance.amount(5, 10, 2,);
-      let items = {
-        name: name,
-        price: price,
-        
-      }
-      timeSeriesData.push(items)
-    }
-    
-
-    
-    collection.insertMany(timeSeriesData, (err, result) => {
-      if (err) {
-      }
-      else {
-        console.log("Database seeded! :)");
-        console.log(result);
-      }
-    });
-
-    setTimeout(() => {
-      client.close();
-    }, 1500);
+//     collection.drop();
 
 
-  } catch (err) {
-    console.log("SEED error:", err);
-  }
-}
+
+//     make a bunch of time series data
+//     let timeSeriesData = [];
+
+//     for (let i = 0; i < 20; i++) {
+//       const name = faker.commerce.product();
+//       const price = faker.finance.amount(5, 10, 2,);
+//       let items = {
+//         name: name,
+//         price: price,
+
+//       }
+//       timeSeriesData.push(items)
+//     }
+
+
+
+//     collection.insertMany(timeSeriesData, (err, result) => {
+//       if (err) {
+//       }
+//       else {
+//         console.log("Database seeded! :)");
+//         console.log(result);
+//       }
+//     });
+
+//     setTimeout(() => {
+//       client.close();
+//     }, 1500);
+
+
+//   } catch (err) {
+//     console.log("SEED error:", err);
+//   }
+// }
 
 //seedDBItems();
 
@@ -222,29 +224,29 @@ app.get('/seed', (req, res) => {
 
 
 app.post("/login", async (req, res, next) => {
-   
+
   let { email, password } = req.body;
-  
+
   let existingUser;
-  
+
   try {
     existingUser = await User.findOne({ email: email });
   } catch {
-     return res.status(400).json((err))
+    return res.status(400).json((err))
   }
-  
 
-  if (!existingUser || !await bcrypt.compare(req.body.password,existingUser.password)) {
+
+  if (!existingUser || !await bcrypt.compare(req.body.password, existingUser.password)) {
     const error = Error("Wrong details please check at once");
     return res.status(400).json(next(error))
   }
-  
+
   let token;
-  
+
   try {
     //Creating jwt token
     token = jwt.sign(
-      { userId: existingUser.id, email: existingUser.email},
+      { userId: existingUser.id, email: existingUser.email },
       JWT_SECRET,
       { expiresIn: "2 days" }
     );
@@ -253,16 +255,16 @@ app.post("/login", async (req, res, next) => {
     const error = new Error("Error! Something went wrong.");
     return next(error);
   }
-  
+
   res.status(200)
-  .json({
-    success: true,
-    data: {
-      userId: existingUser.id,
-      email: existingUser.email,
-      token: token,
-    },
-  });
+    .json({
+      success: true,
+      data: {
+        userId: existingUser.id,
+        email: existingUser.email,
+        token: token,
+      },
+    });
   console.log(token);
 });
 
@@ -277,9 +279,9 @@ app.post("/signup", async (req, res, next) => {
 
   try {
     await newUser.save();
-  } catch (err){
+  } catch (err) {
     res.status(401).json(next(err))
-   
+
   }
   let token;
 
@@ -289,9 +291,9 @@ app.post("/signup", async (req, res, next) => {
       JWT_SECRET,
       { expiresIn: "1h" }
     );
-  } catch (err) {   
-      console.log(JWT_SECRET);
-    const error = new Error("Error! Something went wrong."); 
+  } catch (err) {
+    console.log(JWT_SECRET);
+    const error = new Error("Error! Something went wrong.");
     return next(error);
   }
   res.status(201).json({
@@ -300,46 +302,49 @@ app.post("/signup", async (req, res, next) => {
   });
 });
 
-app.get('/accessResource', (req, res)=>{  
-      
+app.get('/accessResource', (req, res) => {
+
   const token2 = req.headers.authorization
   // if token is invalid or not present in the header then it will return 401
-  
-  if(token2==undefined){
-      const error = Error("Wrong details please check at once");
-     
-   return res.status(401).json({message: "Unauthorized"})
+
+  if (token2 == undefined) {
+    const error = Error("Wrong details please check at once");
+
+    return res.status(401).json({ message: "Unauthorized" })
   }
-  const token = token2.split(' ')[1]; 
+  const token = token2.split(' ')[1];
   //Authorization: 'Bearer TOKEN'
-  
 
 
-   
+
+
   // verify a token symmetric
-  jwt.verify(token, JWT_SECRET, function(err, decoded) {
+  jwt.verify(token, JWT_SECRET, function (err, decoded) {
   });
 
-  if(!token)
-  {
-      res.status(200).json({success:false, message: "Error! Token was not provided."});
+  if (!token) {
+    res.status(200).json({ success: false, message: "Error! Token was not provided." });
   }
   //Decoding the token
-  const decodedToken = jwt.verify(token,JWT_SECRET, function(err, decoded) {
-      if(err){
-          res.status(400).json({success:false, message: "Error! Token is invalid."});
-      }
-      return decoded;
+  const decodedToken = jwt.verify(token, JWT_SECRET, function (err, decoded) {
+    if (err) {
+      res.status(400).json({ success: false, message: "Error! Token is invalid." });
+    }
+    return decoded;
   });
 
-  res.status(200).json({success:true, data:{userId:decodedToken.userId,
-   email:decodedToken.email}});
+  res.status(200).json({
+    success: true, data: {
+      userId: decodedToken.userId,
+      email: decodedToken.email
+    }
+  });
 }),
 
 
 
 
-app.set('view engine', 'ejs');
+  app.set('view engine', 'ejs');
 app.use(express.static('public'))
 
 
@@ -349,7 +354,7 @@ app.listen(port, () => {
   console.log(`API up at: http//localhost: ${port}`)
 })
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.nonce = crypto.randomBytes(16).toString("hex");
   next();
 });
@@ -357,17 +362,17 @@ app.use(function(req, res, next) {
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
-     scriptSrc: [
-          "'self'",
-          "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js",
-          "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-          "'sha256-s1vVw8TksVGpNwieRf5qwR0mx22jlDKFBK8U2XuzbFo='", 
-          (req,res)=>`'nonce-${res.locals.nonce}'`,
-          `${process.env.development?"'unsafe-eval'":"production"}`
-      ],
-      defaultSrc:[
-          "http://localhost:8088"
-      ]
+    scriptSrc: [
+      "'self'",
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js",
+      "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+      "'sha256-s1vVw8TksVGpNwieRf5qwR0mx22jlDKFBK8U2XuzbFo='",
+      (req, res) => `'nonce-${res.locals.nonce}'`,
+      `${process.env.development ? "'unsafe-eval'" : "production"}`
+    ],
+    defaultSrc: [
+      "http://localhost:8088"
+    ]
   },
 }))
 app.use(express.static('css'))
