@@ -1,0 +1,33 @@
+<body>
+    <section id="contact">
+      <div class="container">
+        <h2 class="text-uppercase text-center text-secondary mb-3"> <%= title %></h2>
+        <div class="row">
+          <div class="col-lg-3 mx-auto">
+            <form action="/items" method="POST">
+              <div class="control-group">
+                
+                </div>
+                <div class="control-group">
+                  <div class="mb-2 form-floating controls pb-2"><input type="name" name="name"
+                      placeholder="enter the name" style="width: 306px;">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="mb-0 form-floating controls pb-2"><input type="number" name="price"
+                      placeholder="enter the price" style="width: 306px;"></div>
+                </div>
+  
+                <div class="control-group">
+                  <div class="mb-0 form-floating controls pb-2"><input type="name" name="Catagory"
+                      placeholder="enter the image" style="width: 306px;"></div>
+                </div>
+  
+                <div id="success"></div>
+                <div><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit" style="width: 306px;">Add
+                    New Items</button>
+                </div>
+  
+  
+  
+            </form>

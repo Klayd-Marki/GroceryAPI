@@ -139,69 +139,69 @@ async function seedDBPeoples() {
   }
 }
 
-seedDBPeoples();
+//seedDBPeoples();
 
 
 
-//   async function seedDBItems() {
-//   Connection URL
-//   const uri = "mongodb://localhost:27017/GroceryStoreAPI";
+  async function seedDBItems() {
+ // Connection URL
+  const uri = "mongodb://localhost:27017/GroceryStoreAPI";
 
-//   const client = new MongoClient(uri, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
-//   try {
-//     await client.connect();
-//     console.log("Connected correctly to server");
+  try {
+    await client.connect();
+    console.log("Connected correctly to server");
 
-//     const collection = client.db("peopleApiDb").collection("items");
+    const collection = client.db("GroceryStoreAPI").collection("items");
 
-//     The drop() command destroys all data from a collection.
-//     Make sure you run it against proper database and collection.
-
-
-//     collection.drop();
+    // The drop() command destroys all data from a collection.
+    // Make sure you run it against proper database and collection.
 
 
-
-//     make a bunch of time series data
-//     let timeSeriesData = [];
-
-//     for (let i = 0; i < 20; i++) {
-//       const name = faker.commerce.product();
-//       const price = faker.finance.amount(5, 10, 2,);
-//       let items = {
-//         name: name,
-//         price: price,
-
-//       }
-//       timeSeriesData.push(items)
-//     }
+    collection.drop();
 
 
 
-//     collection.insertMany(timeSeriesData, (err, result) => {
-//       if (err) {
-//       }
-//       else {
-//         console.log("Database seeded! :)");
-//         console.log(result);
-//       }
-//     });
+    // make a bunch of time series data
+    let timeSeriesData = [];
 
-//     setTimeout(() => {
-//       client.close();
-//     }, 1500);
+    for (let i = 0; i < 20; i++) {
+      const name = faker.commerce.product();
+      const price = faker.finance.amount(5, 10, 2,);
+      let items = {
+        name: name,
+        price: price,
+
+      }
+      timeSeriesData.push(items)
+    }
 
 
-//   } catch (err) {
-//     console.log("SEED error:", err);
-//   }
-// }
 
-//seedDBItems();
+    collection.insertMany(timeSeriesData, (err, result) => {
+      if (err) {
+      }
+      else {
+        console.log("Database seeded! :)");
+        console.log(result);
+      }
+    });
+
+    setTimeout(() => {
+      client.close();
+    }, 1500);
+
+
+  } catch (err) {
+    console.log("SEED error:", err);
+  }
+}
+
+seedDBItems();
 
 
 /*// make seeding data

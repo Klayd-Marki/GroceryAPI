@@ -2,6 +2,7 @@ const peoplesList = require("../controllers/peopleController")
 const loginController = require("../controllers/loginController")
 const itemsController = require("../controllers/itemController")
 const signupController = require("../controllers/signupController")
+const { requireAuth, checkUser, checkAdmin } = require('../middleware/auth.Middleware');
 const mainController = require("../controllers/mainController");
 
 const express = require("express")
@@ -38,13 +39,18 @@ module.exports = function(app){
     app.route('/')
     .get(mainController.getIndexPage);
 
+    app.get('/admin', (req, res) => res.render('admin', { title:"AdminPage" }));
+    
     app.route('/post')
     .get(mainController.getPostPage);
 
+    app.get('/itemsadd', (req, res) => res.render('itemsadd', { title: "Add items" }));
+
+    app.get('/firepeople', (req, res) => res.render('firepeople', { title: "Fire people" }));
+
+    app.get('/itemsremove', (req, res) => res.render('itemsremove', { title: "Remove items" }));
+
+
+
 
  }
-
-
-
-
-
