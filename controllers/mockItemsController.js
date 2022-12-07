@@ -4,7 +4,7 @@ const People = mongoose.model("People")
 
 
 
-const item = [
+const items = [
     {id:1, name: 'onion',category:"Vegetable", price: 2.99},
     {id:1, name: 'Apple',category:"Fruit", price: 4.19},
     {id:1, name: 'Carrot',category:"Vegetable", price: 2.99},
@@ -29,9 +29,18 @@ const item = [
     })
 }*/
 
-exports.getAll = function(req, res) {
-    res.send(item);
-};
+for (let i = 0; i < 20; i++) {
+    items.push({id:11+i,
+         name:faker.word.adjective(),
+         category:faker.commerce(),
+         price:faker.finance.amount(5, 10, 2, '€') 
+         
+     })
+     console.log(items);
+ }
+ exports.getAll = (req, res) => {
+   res.send(items)
+ }
 
 
 // FAKER Name

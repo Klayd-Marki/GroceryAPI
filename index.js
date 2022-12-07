@@ -171,9 +171,11 @@ async function seedDBPeoples() {
 
     for (let i = 0; i < 20; i++) {
       const name = faker.commerce.product();
+      const category = faker.commerce.productMaterial();
       const price = faker.finance.amount(5, 10, 2,);
       let items = {
         name: name,
+        category: category,
         price: price,
 
       }
@@ -201,7 +203,7 @@ async function seedDBPeoples() {
   }
 }
 
-seedDBItems();
+//seedDBItems();
 
 
 /*// make seeding data

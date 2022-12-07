@@ -21,8 +21,6 @@ const ItemSchema = new Schema({
     image: {
         type: String,
         lowercase: true
-
-
     }
 
 
