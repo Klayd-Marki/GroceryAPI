@@ -2,12 +2,12 @@
 <html lang="en">
 
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="/public/css/style.css">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -31,69 +31,78 @@
             <th>item price </th>
           </tr>
           <tr v-for="item in items">
-            <td @click="getitem(item._id)" class="itemname">{{item.name}}</td>
+            <td @click="getItem(item._id)" class="itemname">{{item.name}}</td>
             <td class="price ">{{item.catagory}}</td>
             <td class="seller">{{item.price}}</td>
-           
+
           </tr>
         </table>
       </div>
     </div>
 
 
-  </div>
+    <div v-for="item in items">
+      <div class="container col-sm-6 col-xs-6 ">
+        <div class="card mb-2 ">
+          <div class="card-header">
+            <a class="card-header-image">
+              <img :src="item.image">
+            </a>
+          </div>
+          <div class="card-content">
+            <h2><a class="text-black" @click="getItem(item._id)">{{item.name}}</a></h2>
+            <span class="card-meta">
+              <span class="card-meta-item"><i class="fas fa-euro-sign itemprice"></i> Price {{item.category}}</span>
 
-
-
-
-  <div class="modal fade modal-sm " id="itemInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="itemInfoModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <h5 class="modal-title">items details<h5>
-              <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
-              </button>
-        </div>
-        <div class="modal-body">
-          <table>
-            <tr>
-              <th>id</th>
-              <td>{{itemInModal.id}}</td>
-            </tr>
-            <tr>
-              <th>brand</th>
-              <td>{{itemInModal.brand}}</td>
-            </tr>
-            <tr>
-              <th>price</th>
-              <td>{{itemInModal.price}}</td>
-            </tr>
-            <tr>
-              <th>seller</th>
-              <td>{{itemInModal.seller}}</td>
-            </tr>
-            <tr>
-              <th>location</th>
-              <td>{{itemInModal.location}}</td>
-            </tr>
-            <tr>
-              <th>year</th>
-              <td>{{itemInModal.year}}</td>
-            </tr>
-            <tr>
-              <th>color</th>
-              <td>{{itemInModal.color}}</td>
-            </tr>
-          </table>
-          <button type="button bg-dark" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </span>
+            <p class="itemcast">Price: {{item.price}}</p>
+          </div>
         </div>
       </div>
-
     </div>
 
 
-  </div>
+
+
+
+
+    <div class="modal fade modal-sm " id="itemInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="itemInfoModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <h5 class="modal-title">items details<h5>
+                <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
+          </div>
+          <div class="modal-body">
+            <table>
+              <tr>
+                <th>id</th>
+                <td>{{itemInModal.id}}</td>
+              </tr>
+              <tr>
+                <th>name</th>
+                <td>{{itemInModal.name}}</td>
+              </tr>
+              <tr>
+                <th>category</th>
+                <td>{{itemInModal.category}}</td>
+              </tr>
+              <tr>
+                <th>price</th>
+                <td>{{itemInModal.price}}</td>
+              </tr>
+
+
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
   </div>
   </div>
 
@@ -103,12 +112,35 @@
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script type="module" src="client.js" nonce="{{response.locals.nonce}}"></script>
+  <script type="module" src="index.js" nonce="{{response.locals.nonce}}"></script>
 
 
+  <script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
+    createApp({
+      data() {
+        return {
+          itemInModal: {},
+          items: []
+        }
+      },
+      async created() {
+        this.items = await (await fetch('http://localhost:8000/items')).json();
 
+      },
+      methods: {
+        getItem: async function (id) {
+          this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
+          console.log(this.itemInModal);
+          const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
+          itemInfoModal.show()
+        }
+      }
+    }).mount('#app')
+  </script>
 
+  </div>
 </body>
 
 </html>

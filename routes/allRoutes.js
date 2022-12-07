@@ -27,8 +27,8 @@ module.exports = function(app){
     .post(signupController.postSignUp)
 
     app.route("/items")
-    .get(itemsController.getAll)
-    .post(itemsController.postnewItem)
+    .get(itemsController.getMainPage)
+    .post(itemsController.createNew)
     
     app.route("/items/:id")
     .get(itemsController.getById)                  //Read
