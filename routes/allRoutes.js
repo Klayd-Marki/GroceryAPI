@@ -44,7 +44,6 @@ module.exports = function(app){
 
     app.get('/itemsadd', (req, res) => res.render('itemsadd', { title: "Add items" }));
 
-    app.get('/firepeople', (req, res) => res.render('firepeople', { title: "Fire people" }));
 
     app.get('/itemsremove', (req, res) => res.render('itemsremove', { title: "Remove items" }));
 

@@ -63,7 +63,8 @@ exports.editItem = function (req, res) {
             res.status(400).send(err)
         } else {
             console.log("edit item", item);
-            res.status(200).json(item)
+            
+            res.status(200).redirect("/itemsremove")
         }
     })
 

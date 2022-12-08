@@ -346,6 +346,18 @@ app.get('/accessResource', (req, res) => {
 
 
 
+app.post('items/update/:id', async (req, res) => {
+  await Car.updateOne({_id: req.params.id}, {
+    name: req.body.name,
+    category: req.body.category,
+    price: req.body.price
+  })
+  return res.redirect('/itemsremove')
+});
+
+
+
+
   app.set('view engine', 'ejs');
 app.use(express.static('public'))
 
