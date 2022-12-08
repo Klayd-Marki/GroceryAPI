@@ -1,57 +1,120 @@
-<div id = "app">
-    <table cellspacing="0" cellpadding="0" id="itemsTable" class="moviestable table-striped table-bordered itemsTable">
+<!Doctype HTML>
+<html>
+
+<head>
+  <title>Edit items</title>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+
+<body>
+  <div id="app">
+
+    <br />
+
+    <table id="itemsTable" class="itemsShow table-bordered table-hover ">
       <tr>
-        <th>Item name</th>
-        <th>Item price </th>
-        <th>Item image </th>
-        <th>Item category</th>
+        <th>item name </th>
+        <th>item category </th>
+        <th>item price </th>
       </tr>
       <tr v-for="item in items">
         <td>
           <div class="main-div">
-            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
-                :value="item.name" type="text" name="name" required style="width: 306px;">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete"
+                :form="`update${item._id}`" :value="item.name" type="text" name="name" required style="width: 306px;">
             </div>
           </div>
         </td>
         <td>
           <div class="main-div">
-            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
-                :value="item.category" type="text" name="cast" required style="width: 306px;">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete"
+                :form="`update${item._id}`" :value="item.category" type="text" name="category" required style="width: 306px;">
             </div>
           </div>
         </td>
         <td>
           <div class="main-div">
-            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
-                :value="item.price" type="number" name="price" required style="width: 306px;">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete"
+                :form="`update${item._id}`" :value="item.price" type="text" name="price" required style="width: 306px;">
             </div>
           </div>
         </td>
+        
+
+
         <td>
-          <div class="main-div">
-            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
-                :value="item.image" type="name" name="image" required style="width: 306px;">
-            </div>
-          </div>
-        </td>
-    
-        <td>
-    
-          <button class="delete-button btn btn-primary " @click="confirmDeleteitem(item._id)">Delete</button>
-    
-        </td>
-          <td>
-          <!-- <div id="success"></div>
-          <div>
-            <form :action="`items/update/${item._id}`" method="POST" :id="`update${item._id}`">
-              <button class="btn btn-primary " id="sendMessageButton" type="submit"
-                style="width: 306px;">Update</button>
-            </form>
-          </div> -->
-    
+          <div id="success"></div>
+          <form :action="`items/update/${item._id}`" method="POST" :id="`update${item._id}`">
+            <button class="btn btn-primary " id="sendMessageButton" type="submit" style="width: 306px;">Update</button>
+          </form>
         </td>
       </tr>
-    
     </table>
-    </div>
+  </div>
+
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+  <script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+    createApp({
+      data() {
+        return {
+          itemInModal: {},
+          items: []
+        }
+      },
+      async created() {
+        this.items = await (await fetch('http://localhost:8000/items')).json();
+
+      },
+      methods: {
+        getitem: async function (id) {
+          this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
+          console.log(this.itemInModal);
+          const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
+          itemInfoModal.show()
+        }
+      },
+      edititem: async function (id) {
+
+
+      }
+    }).mount('#app')
+    // display the nuber of rows in the table
+    var table = document.getElementById('itemsTable'), rIndex;
+    for (var i = 1; i < table.rows.length; i++) {
+      table.rows[i].cells[0].onclick = function () {
+        rIndex = this.parentElement.rowIndex;
+        document.getElementById("itemname").value = this.parentElement.cells[0].innerHTML;
+        document.getElementById("category").value = this.parentElement.cells[1].innerHTML;
+        document.getElementById("price").value = this.parentElement.cells[2].innerHTML;
+        document.getElementById("image").value = this.parentElement.cells[3].innerHTML;
+      };
+    }
+  </script>
+
+</body>
+
+
+</html>

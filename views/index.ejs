@@ -17,7 +17,6 @@
         <a href="#" class="logo">G <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>&nbsp;S</span></a>
         <nav class="navbars">
             <ul>
-                <li><a href="peoples">Peoples</a></li>
                 <li><a href="items">Items</a></li>
                 <li><a href="login">Login</a></li>
 
@@ -174,6 +173,7 @@
                                 <div class="card-info">
                                     <div class="buttons">
                                         <button @click="getitem(item._id)" class="details-btn">Details</button>
+                                        <button class="delete-btn" @click="confirmDeleteItem(item._id)" type="submit">Delete</button>
                                     </div>
 
                                 </div>
@@ -256,9 +256,21 @@
             methods: {
                 getitem: async function (id) {
                     this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
-                    console.log("GetItem result: ",this.itemInModal);
+                    console.log("GetItem result: ", this.itemInModal);
                     const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
                     itemInfoModal.show()
+                },
+                deleteItem: async function (car) {
+                    let requestOptions = {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    }
+
+                    const response = await fetch("/delete/:id", requestOptions); // <----- HERE! 
+                    if (response.status != 204) {
+                        throw Error("Cannot delete your item from list");
+                    }
+                    return car;
                 },
                 confirmDeleteItem: async function (id) {
 

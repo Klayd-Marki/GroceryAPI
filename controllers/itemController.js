@@ -42,13 +42,33 @@ exports.postnewItem = (req, res) => {
             field1 = `${item.name}`
             field2 = `${item.price}`
             field3 = `${item.category}`
-            field4 = `${item.image}`
 
             console.log(`Added a new item`);
             res.redirect('items')
         }
     })
 }
+
+
+exports.editItem = function (req, res) {
+    // edit item by id
+    if (!(parseInt(req.params.id) > 0)) {
+        res.status(400).send({ error: "ID must be a positive integer" })
+        return
+    }
+   console.log('edit item req body: ',req.body);
+   Item.updateOne({_id: (req.params.id)},{$set: req.body},null,(err,item)=>{
+        
+        if (err) {
+            res.status(400).send(err)
+        } else {
+            console.log("edit item", item);
+            res.status(200).json(item)
+        }
+    })
+
+};
+
 
 exports.getById = async function (req, res) {    //Read
 
@@ -104,7 +124,7 @@ exports.deleteItem = function (req, res) {
         if (err) {
             res.status(400).send(err)
         } else {
-            res.status(200).json()
+            res.status(200).json(item)
         }
     })
     
