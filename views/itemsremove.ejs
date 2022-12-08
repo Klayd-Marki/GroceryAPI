@@ -1,0 +1,57 @@
+<div id = "app">
+    <table cellspacing="0" cellpadding="0" id="itemsTable" class="moviestable table-striped table-bordered itemsTable">
+      <tr>
+        <th>Item name</th>
+        <th>Item price </th>
+        <th>Item image </th>
+        <th>Item category</th>
+      </tr>
+      <tr v-for="item in items">
+        <td>
+          <div class="main-div">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
+                :value="item.name" type="name" name="name" required style="width: 306px;">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="main-div">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
+                :value="item.cast" type="name" name="cast" required style="width: 306px;">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="main-div">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
+                :value="item.price" type="number" name="price" required style="width: 306px;">
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="main-div">
+            <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
+                :value="item.image" type="name" name="image" required style="width: 306px;">
+            </div>
+          </div>
+        </td>
+    
+        <td>
+    
+          <button class="delete-button btn btn-primary " @click="confirmDeleteitem(item._id)">Delete</button>
+    
+        </td>
+          <td>
+          <div id="success"></div>
+          <div>
+            <form :action="`items/update/${item._id}`" method="POST" :id="`update${item._id}`">
+              <button class="btn btn-primary " id="sendMessageButton" type="submit"
+                style="width: 306px;">Update</button>
+            </form>
+          </div>
+    
+        </td>
+      </tr>
+    
+    </table>
+    </div>

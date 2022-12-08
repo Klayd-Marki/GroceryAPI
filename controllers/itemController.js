@@ -1,4 +1,5 @@
 require ('dotenv').config();
+const { name } = require('ejs');
 const mongoose = require("mongoose")
 require("../models/itemsModel")
 const Item = mongoose.model("Item")
@@ -23,6 +24,23 @@ exports.postnewItem= (req, res) => {
     let item = new item(req.body.newitem);
     item.saveitem();
     res.redirect('/items');
+}
+
+exports.postnewItem = (req, res) => {  
+    console.log(req.body);   //Create
+    const new_item = new Item(req.body)
+    new_item.save((err, item) => {
+        if (err) {
+            res.render("itemsAdd",{title:"Error please fill in all the fields!"})
+        } else {
+            field1=`${item.name}`
+            field2=`${item.price}`
+            field3=`${item.image}`
+            field4=`${item.category}`
+            console.log(`Added a new item`);
+            res.redirect('admin')
+        }
+    })
 }
 
 exports.deleteItem = (req,res)=>{
