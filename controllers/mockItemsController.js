@@ -16,7 +16,7 @@ const items = [
 for (let i = 0; i < 10; i++) {
     const name = faker.commerce.product();
     const category = faker.commerce.productMaterial();
-    const price = faker.finance.amount(2, 20, 2, '$');
+    const price = faker.finance.amount(5,10);
     console.log("n" + name,"\n", "C" + category ,"\n", "P" + price  );
 }
 
