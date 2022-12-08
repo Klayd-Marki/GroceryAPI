@@ -9,12 +9,14 @@ const ItemSchema = new Schema({
     },
     category: {
         type: String,
-        lowercase: true
+        lowercase: true,
+        required: "Category is mandatory"
     },
 
     price: {
         type: Number,
-        lowercase: true
+        lowercase: true,
+        required: "Price is mandatory"
 
 
     },

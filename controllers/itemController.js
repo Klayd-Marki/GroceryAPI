@@ -19,19 +19,6 @@ exports.getAll = (req, res) => {
     })
 }
 
-// exports.postnewItem= (req, res) => {
-//     let item = new item(req.body.newitem);
-//     item.saveitem();
-//     res.redirect('/items');
-// }
-
-// exports.deleteItem = (req,res)=>{
-//     console.log('Call from delete', req.body.checkbox);
-//     item.deleteItem(req.body.checkbox)
-//     res.redirect('/');
-
-// } 
-
 
 exports.createNew = function(req, res) {
     const newItem = new Item(req.body);

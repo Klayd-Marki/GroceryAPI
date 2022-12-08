@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <link rel="stylesheet" href="/css/style.css">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <title>Items list</title>
+
+
+
+
+  
 </head>
 
 <body>
 
+  <header class="header">
+    <a href="#" class="logo">G <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>&nbsp;S</span></a>
+    <nav class="navbars">
+        <ul>
+          <li><a href="index">Home</a></li>
+            <li><a href="peoples">Peoples</a></li>
+            <li><a href="items">Items</a></li>
+            <li><a href="login">Login</a></li>
+
+        </ul>
+    </nav>
+
+</header>
+
 
 
   <div id="app">
-    <div class="navbar">
-      <div class="info">
-        <a class="active" href="login"></a>
-      </div>
-    </div>
+    <div class="container">
+      <div v-for="item in items">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="card">
+              <div class="card-header">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/2324px-Banana-Single.jpg"
+                  alt="rover" />
+              </div>
+              <div class="card-body">
+                <h2>
+                  <h3 class="text-black">{{item.name}}</h1>
+                </h2>
+                <span class="list-meta">
+                  <span class="list-meta-item"><i class="fas fa-euro-sign price"></i> Category: {{item.category}}</span>
+                  <br>
+                  <br>
+                </span>
+                <p class="model">price: {{item.model}}</p>
+                <br>
+                <div class="card-info">
 
+                  <div class="buttons">
+                    <button @click="getitem(item._id)" class="details-btn">Details</button>
+                  </div>
 
-    <div class="row">
-      <div class="column">
-        <table id="itemsTable" class="itemsShow table-bordered table-hover ">
-          <tr>
-            <th>item name</th>
-            <th>item category </th>
-            <th>item price </th>
-          </tr>
-          <tr v-for="item in items">
-            <td @click="getItem(item._id)" class="itemname">{{item.name}}</td>
-            <td class="price ">{{item.catagory}}</td>
-            <td class="seller">{{item.price}}</td>
+                </div>
 
-          </tr>
-        </table>
-      </div>
-    </div>
-
-
-    <div v-for="item in items">
-      <div class="container col-sm-6 col-xs-6 ">
-        <div class="card mb-2 ">
-          <div class="card-header">
-            <a class="card-header-image">
-              <img :src="item.image">
-            </a>
-          </div>
-          <div class="card-content">
-            <h2><a class="text-black" @click="getItem(item._id)">{{item.name}}</a></h2>
-            <span class="card-meta">
-              <span class="card-meta-item"><i class="fas fa-euro-sign itemprice"></i> Price {{item.category}}</span>
-
-            </span>
-            <p class="itemcast">Price: {{item.price}}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
-
-
+    <table id="itemsTable" class="itemsShow table-bordered table-hover ">
+      <tr>
+        <th>Items</th>
+      </tr>
+      <tr v-for="item in items">
+        <td @click="getitem(item._id)" class="item">{{item.name}}</td>
+      </tr>
+    </table>
 
 
     <div class="modal fade modal-sm " id="itemInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
@@ -71,31 +86,31 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header ">
-            <h5 class="modal-title">items details<h5>
+            <h5 class="modal-title">Items details<h5>
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
           </div>
           <div class="modal-body">
             <table>
               <tr>
-                <th>id</th>
+                <th>id: </th>
                 <td>{{itemInModal.id}}</td>
               </tr>
               <tr>
-                <th>name</th>
+                <th>name: </th>
                 <td>{{itemInModal.name}}</td>
               </tr>
               <tr>
-                <th>category</th>
+                <th>category: </th>
                 <td>{{itemInModal.category}}</td>
               </tr>
               <tr>
-                <th>price</th>
+                <th>price: </th>
                 <td>{{itemInModal.price}}</td>
               </tr>
 
-
             </table>
+            <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
 
@@ -103,18 +118,19 @@
 
 
     </div>
-  </div>
+
   </div>
 
 
-  <!-- JavaScript Bundle with Popper -->
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script type="module" src="index.js" nonce="{{response.locals.nonce}}"></script>
-
-
   <script type="module">
     import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
@@ -130,7 +146,7 @@
 
       },
       methods: {
-        getItem: async function (id) {
+        getitem: async function (id) {
           this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
           console.log(this.itemInModal);
           const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
@@ -140,7 +156,6 @@
     }).mount('#app')
   </script>
 
-  </div>
 </body>
 
 </html>
