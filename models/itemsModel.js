@@ -14,7 +14,7 @@ const ItemSchema = new Schema({
     },
 
     price: {
-        type: Number,
+        type: String,
         lowercase: true,
         required: "Price is mandatory"
 

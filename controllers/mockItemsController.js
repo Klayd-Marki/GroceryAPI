@@ -2,7 +2,7 @@ const { faker } = require("@faker-js/faker")
 
 
 
-const item = [
+const items = [
     { id: 1, name: 'onion', category: "Vegetable", price: 2.99 },
     { id: 2, name: 'Apple', category: "Fruit", price: 4.19 },
     { id: 3, name: 'Carrot', category: "Vegetable", price: 2.99 },
@@ -23,7 +23,7 @@ for (let i = 0; i < 10; i++) {
 
 
 exports.getAll = (req, res) => {
-    res.send(item)
+    res.send(items)
 }
 
 

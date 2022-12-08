@@ -14,6 +14,7 @@ exports.getAll = (req, res) => {
         if (err) {
             res.status(400).send(err)
         } else {
+            console.log("GetAll",items)
             res.json(items)
         }
     })
