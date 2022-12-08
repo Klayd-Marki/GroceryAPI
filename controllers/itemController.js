@@ -1,11 +1,10 @@
-require ('dotenv').config();
-const { name } = require('ejs');
+require('dotenv').config();
 require("../models/itemsModel")
 const mongoose = require("mongoose")
 const Item = mongoose.model("Item")
 const itemDto = require('../models/itemDto')
 
- 
+
 exports.getMainPage = (req, res) => {
     res.render("items")
 };
@@ -15,94 +14,73 @@ exports.getAll = (req, res) => {
         if (err) {
             res.status(400).send(err)
         } else {
-            console.log("GetAll",items)
+            // console.log("GetAll",items)
             res.json(items)
         }
     })
 }
 
 
-exports.postnewItem = (req, res) => {  
-    console.log(req.body);   //Create
-    const new_item = new Item(req.body)
-    new_item.save((err, item) => {
-        if (err) {
-            res.render("itemsAdd",{title:"Error please fill in all the fields!"})
-        } else {
-            field1=`${item.name}`
-            field2=`${item.price}`
-            field3=`${item.image}`
-            field4=`${item.category}`
-            console.log(`Added a new item`);
-            res.redirect('admin')
-        }
-    })
-}
-
-exports.deleteItem = (req,res)=>{
-    console.log('Call from delete', req.body.checkbox);
-    item.deleteItem(req.body.checkbox)
-    res.redirect('/');
-
-} 
-exports.createNew = function(req, res) {
+exports.createNew = function (req, res) {
     const newItem = new Item(req.body);
     newItem.save((err, item) => {
         if (err) {
             res.status(400).send(err);
-        } else{
+        } else {
             res.status(201).json(item);
         }
     });
 };
 
-exports.getById = async function (req, res) {    //Read
-    
-    if (!(parseInt(req.params.id) > 0)) {
-        res.status(400).send({ error: "ID must be a positive integer" })
-        return
-    }
-    Item.findOne({_id:(req.params.id)},(err,item)=>{
+exports.postnewItem = (req, res) => {
+    console.log(req.body);   //Create
+    const new_item = new Item(req.body)
+    new_item.save((err, item) => {
         if (err) {
-            res.status(400).send(err)
+            res.render("itemsadd", { title: "Error please fill in all the fields!" })
         } else {
-            res.status(200).json(new itemDto(Item))
+            field1 = `${item.name}`
+            field2 = `${item.price}`
+            field3 = `${item.category}`
+            field4 = `${item.image}`
+
+            console.log(`Added a new item`);
+            res.redirect('items')
         }
-    })      
-    return
+    })
 }
-exports.getById = function(req, res) {
+
+exports.getById = async function (req, res) {    //Read
 
     if (!(parseInt(req.params.id) > 0)) {
         res.status(400).send({ error: "ID must be a positive integer" })
         return
     }
-    Item.findOne({_id:(req.params.id)},(err,item)=>{
+    Item.findOne({ _id: (req.params.id) }, (err, item) => {
         if (err) {
             res.status(400).send(err)
         } else {
+            
             res.status(200).json(new itemDto(item))
         }
-    })      
+    })
     return
-};
+}
 
-exports.editById = function(req, res) {
+
+exports.editById = function (req, res) {
     // edit item by id
-    Item.updateOne({_id: req.params.itemId},{$set: req.body}, null, (err, item) => {
+    Item.updateOne({ _id: req.params.itemId }, { $set: req.body }, null, (err, item) => {
         if (err) {
             res.send(err);
-        } else{
+        } else {
             console.log(item);
             res.status(200).json(item);
         }
-        
     });
-
-    
 };
 
-exports.deleteById = function(req, res) {
+exports.deleteById = function (req, res) {
     // delete item by id
     Item.deleteOne({
         _id: req.params.itemId
@@ -112,5 +90,26 @@ exports.deleteById = function(req, res) {
         }
         res.json({ message: 'Item deleted successfully' });
     });
+
+};
+
+
+exports.deleteItem = function (req, res) {
+    if (!(parseInt(req.params.id) > 0)) {
+        res.status(400).send({ error: "ID must be a positive integer" })
+        return
+    }
+    console.log("deleted");
+    Item.deleteOne({ _id: (req.params.id) }, (err, item) => {
+        if (err) {
+            res.status(400).send(err)
+        } else {
+            res.status(200).json()
+        }
+    })
+    
+
+
+
 
 };

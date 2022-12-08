@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="/css/style.css">
-    
+
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             </ul>
         </nav>
 
-    </header> 
+    </header>
 
     <!-- <img src="../public/img/back1.jpg" alt="">
 
@@ -167,7 +167,8 @@
                                 <span class="list-meta">
                                     <span class="list-meta-item"></i> Category: {{item.category}}</span>
                                     <br>
-                                    <span class="list-meta-item">Price: {{item.price}}<i class="fas fa-euro-sign price"></i> </span>
+                                    <span class="list-meta-item">Price: {{item.price}}<i
+                                            class="fas fa-euro-sign price"></i> </span>
                                 </span>
                                 <br>
                                 <div class="card-info">
@@ -178,54 +179,54 @@
                                 </div>
 
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        
 
 
-        <div class="modal fade modal-sm " id="itemInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-            aria-labelledby="itemInfoModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header ">
-                        <h5 class="modal-title">Items details<h5>
-                                <button type="button" class="btn-close " data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                                </button>
+
+            <div class="modal fade modal-sm " id="itemInfoModal" data-backdrop="static" data-keyboard="false"
+                tabindex="-1" aria-labelledby="itemInfoModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <h5 class="modal-title">Items details<h5>
+                                    <button type="button" class="btn-close " data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                    </button>
+                        </div>
+                        <div class="modal-body">
+                            <table>
+                                <tr>
+                                    <th>id: </th>
+                                    <td>{{itemInModal.id}}</td>
+                                </tr>
+                                <tr>
+                                    <th>name: </th>
+                                    <td>{{itemInModal.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th>category: </th>
+                                    <td>{{itemInModal.category}}</td>
+                                </tr>
+                                <tr>
+                                    <th>price: </th>
+                                    <td>{{itemInModal.price}}</td>
+                                </tr>
+
+                            </table>
+                            <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <table>
-                            <tr>
-                                <th>id: </th>
-                                <td>{{itemInModal.id}}</td>
-                            </tr>
-                            <tr>
-                                <th>name: </th>
-                                <td>{{itemInModal.name}}</td>
-                            </tr>
-                            <tr>
-                                <th>category: </th>
-                                <td>{{itemInModal.category}}</td>
-                            </tr>
-                            <tr>
-                                <th>price: </th>
-                                <td>{{itemInModal.price}}</td>
-                            </tr>
 
-                        </table>
-                        <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
-                    </div>
                 </div>
 
+
             </div>
-
-
         </div>
-    </div>
 
-</div>
+    </div>
 
 
 
@@ -255,9 +256,22 @@
             methods: {
                 getitem: async function (id) {
                     this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
-                    console.log(this.itemInModal);
+                    console.log("GetItem result: ",this.itemInModal);
                     const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
                     itemInfoModal.show()
+                },
+                confirmDeleteItem: async function (id) {
+
+                    var shouldDelete = confirm("Are you sure you want to delete this item?");
+                    if (shouldDelete) {
+                        console.log(id + " deleted");
+                        await (await fetch(`http://localhost:8000/items/${id}`, {
+                            method: 'delete',
+                        }));
+
+
+                        this.items = this.items.filter((item) => item._id != id);
+                    }
                 }
             }
         }).mount('#app')

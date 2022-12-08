@@ -324,11 +324,36 @@ section
 
 .row {
     display: flex;
-    background-color: #000000;
+    background: linear-gradient(to right, #fffefe, #5b1205);
     flex-direction: row;
     justify-content: space-around;
     flex-flow: wrap;
+    
 
+}
+
+.card-header img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    
+    
+}
+
+.card-header {
+    text-align: center;
+    padding: 50px 40px;
+    background: linear-gradient(to right, #fffefe, #5b1205);
+    
+    
+}
+
+.card-body {
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 15px;
+    background: linear-gradient(to right, #fffefe, #5b1205);
 }
 
 /* .card {
@@ -338,24 +363,6 @@ section
     margin-bottom: 50px;
     transition: 0.2s;
     box-shadow: -3px 05px 20px rgb(184, 184, 184), 10px -5px 25px rgb(177, 170, 170), 8px 8px 5px rgb(211, 177, 177);
-}
-
-.card-header img {
-    width: 100%;
-}
-
-.card-header {
-    text-align: center;
-    padding: 50px 100px;
-    background: linear-gradient(to right, #fffefe, #5b1205);
-    color: #fff;
-}
-
-.card-body {
-    padding: 30px 20px;
-    text-align: center;
-    font-size: 18px;
-    background-color: rgb(255, 255, 255);
 }
 
 .card-body .btn {

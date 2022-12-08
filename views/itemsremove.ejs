@@ -10,14 +10,14 @@
         <td>
           <div class="main-div">
             <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
-                :value="item.name" type="name" name="name" required style="width: 306px;">
+                :value="item.name" type="text" name="name" required style="width: 306px;">
             </div>
           </div>
         </td>
         <td>
           <div class="main-div">
             <div class="mb-5 form-floating controls pb" id="second-div"><input class="shadow-lg" id="input-delete" :form="`update${item._id}`"
-                :value="item.cast" type="name" name="cast" required style="width: 306px;">
+                :value="item.category" type="text" name="cast" required style="width: 306px;">
             </div>
           </div>
         </td>
@@ -42,13 +42,13 @@
     
         </td>
           <td>
-          <div id="success"></div>
+          <!-- <div id="success"></div>
           <div>
             <form :action="`items/update/${item._id}`" method="POST" :id="`update${item._id}`">
               <button class="btn btn-primary " id="sendMessageButton" type="submit"
                 style="width: 306px;">Update</button>
             </form>
-          </div>
+          </div> -->
     
         </td>
       </tr>

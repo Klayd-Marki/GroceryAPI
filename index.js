@@ -6,7 +6,7 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./docs/swagger.json')
 const mongoose = require("mongoose")
 const People = require("./models/peopleModel")
-const itemModel = require("./models/itemsModel")
+const Item = require("./models/itemsModel")
 const bodyParser = require("body-parser")
 const express = require("express")
 const { faker } = require("@faker-js/faker")
@@ -361,21 +361,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.post('items/delete/:id', async (req, res) => {
+  await Item.deleteOne({_id: req.params.id})
+  return res.redirect('/')
+});
 
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    scriptSrc: [
-      "'self'",
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js",
-      "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-      "'sha256-s1vVw8TksVGpNwieRf5qwR0mx22jlDKFBK8U2XuzbFo='",
-      (req, res) => `'nonce-${res.locals.nonce}'`,
-      `${process.env.development ? "'unsafe-eval'" : "production"}`
-    ],
-    defaultSrc: [
-      "http://localhost:8088"
-    ]
-  },
-}))
+
+
 app.use(express.static('css'))
-app.listen(process.env.PORT1, () => console.log(`FRONT is listening on port ${process.env.PORT1}!`))
