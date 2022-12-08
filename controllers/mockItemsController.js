@@ -1,77 +1,57 @@
-const {faker} = require("@faker-js/faker")
-const mongoose = require("mongoose")
-const People = mongoose.model("People")
+const { faker } = require("@faker-js/faker")
 
 
 
 const items = [
-    {id:1, name: 'onion',category:"Vegetable", price: 2.99},
-    {id:1, name: 'Apple',category:"Fruit", price: 4.19},
-    {id:1, name: 'Carrot',category:"Vegetable", price: 2.99},
-    {id:1, name: 'Potato',category:"Vegetable", price: 2.99},
-    {id:1, name: 'Cherry',category:"Fruit", price: 6.99},
-    {id:1, name: 'Strawberry',category:"Fruit", price: 7.99},
-    {id:1, name: 'Cabbage',category:"Vegetable", price: 2.99},
+    { id: 1, name: 'onion', category: "Vegetable", price: 2.99 },
+    { id: 2, name: 'Apple', category: "Fruit", price: 4.19 },
+    { id: 3, name: 'Carrot', category: "Vegetable", price: 2.99 },
+    { id: 4, name: 'Potato', category: "Vegetable", price: 2.99 },
+    { id: 5, name: 'Cherry', category: "Fruit", price: 6.99 },
+    { id: 6, name: 'Strawberry', category: "Fruit", price: 7.99 },
+    { id: 7, name: 'Cabbage', category: "Vegetable", price: 2.99 },
 ];
 
 
+for (let i = 0; i < 10; i++) {
+    const name = faker.commerce.product();
+    const category = faker.commerce.productMaterial();
+    const price = faker.finance.amount(2, 20, 2, '$');
+    console.log("n" + name,"\n", "C" + category ,"\n", "P" + price  );
+}
 
 
-/*exports.getAll = (req, res) => {
-    console.log("getAll")
-    People.find({}, (err, peoples) => {
-        console.log("err",err)
-        console.log("peoples", peoples)
 
-        if (err) {
-            res.status(400).send(err)
-        } else { res.json(peoples) }
-    })
-}*/
-
-for (let i = 0; i < 20; i++) {
-    items.push({id:11+i,
-         name:faker.word.adjective(),
-         category:faker.commerce(),
-         price:faker.finance.amount(5, 10, 2, '€') 
-         
-     })
-     console.log(items);
- }
- exports.getAll = (req, res) => {
-   res.send(items)
- }
+exports.getAll = (req, res) => {
+    res.send(items)
+}
 
 
 // FAKER Name
 for (let i = 0; i < 20; i++) {
     const randomName = faker.name.fullName()
     console.log(randomName);
-} 
+}
+
+// FAKER category
+for (let i = 0; i < 20; i++) {
+    const category = faker.commerce.productMaterial()
+    console.log(category);
+}
 
 //FAKER price
-for (let i = 0; i < 5; i++) {
-    const price = faker.commerce.price(100,1000)
+for (let i = 0; i < 20; i++) {
+    const price = faker.commerce.price(100, 1000)
     console.log(price);
-} 
-
-
-
-
-
-
-
-
-
-exports.createNew = (req, res) => {
-    const lenght = peoples.push(req.body)
-    peoples[lenght - 1] = { id: peoples[lenght - 2].id + 1, ...peoples[lenght - 1] }
-    res.status(201).json(peoples[lenght - 1])
-
 }
 
 
+exports.createNew = (req, res) => {
+    const lenght = items.push(req.body)
+    items[lenght - 1] = { id: items[lenght - 2].id + 1, ...items[lenght - 1] }
+    res.status(201).json(items[lenght - 1])
 
+}
 
 exports.getById = function (req, res) {
 
@@ -79,7 +59,7 @@ exports.getById = function (req, res) {
         res.status(400).send({ error: "ID must be a positive integer." })
         return
     }
-    let result = peoples.find(x => x.id === parseInt(req.params.id))
+    let result = items.find(x => x.id === parseInt(req.params.id))
 
     if (typeof (result) === "undefined") {
         res.status(404).send({ error: "People not found." })
@@ -95,15 +75,15 @@ exports.editById = function (req, res) {
         res.status(400).send({ error: "ID must be a positive integer." })
         return
     }
-    const index = peoples.findIndex(x => x.id === parseInt(req.params.id))
+    const index = items.findIndex(x => x.id === parseInt(req.params.id))
     if (index === -1) {
         res.status(404).send({ error: "People not found." })
         return
     }
 
-    peoples[index] = { ...peoples[index], ...req.body }
+    items[index] = { ...items[index], ...req.body }
 
-    res.status(200).json(peoples[index])
+    res.status(200).json(items[index])
 }
 
 
@@ -113,13 +93,26 @@ exports.deleteById = function (req, res) {
         res.status(400).send({ error: "ID must be a positive integer." })
         return
     }
-    const index = peoples.findIndex(x => x.id === parseInt(req.params.id))
+    const index = items.findIndex(x => x.id === parseInt(req.params.id))
 
     if (index === -1) {
-        res.status(404).send({ error: "People not found." })
+        res.status(404).send({ error: "Item not found." })
         return
     }
-    peoples.splice(index, 1)
+    items.splice(index, 1)
     res.status(204).send()
 
 }
+
+exports.getPriceById = function(req, res) {
+    if(!(parseInt(req.params.id) > 0)){
+        res.status(400).send('Id must be a positive integer');
+        return;
+    }
+    let result = item.find(item => item.id === parseInt(req.params.id));
+    if(typeof (result) === 'undefined'){
+        res.status(404).send('Id not found');
+        return;
+    }
+    res.send(result.price);
+};

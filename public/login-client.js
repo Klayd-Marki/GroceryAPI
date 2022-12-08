@@ -23,7 +23,7 @@ createApp({
         getItem: async function (id) {
             this.itemInModal = await (await fetch(`${api_base}/items/${id}`)).json()
             const itemInfoModal = new bootstrap.Modal(document.getElementById("itemInfoModal"), {})
-            itemInModal.show()
+            itemInfoModal.show()
         },
         showLogin: function(event) {
             console.log(event);
@@ -59,7 +59,7 @@ createApp({
             // delete user cookies
             this.token = ""
             sessionStorage.removeItem("token")
-            this.$router.push("/index")
+            this.$router.push("/")
 
         }
     }

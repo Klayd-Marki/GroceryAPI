@@ -15,18 +15,18 @@ useNewUrlParser: true, useUnifiedTopology: true })
     const seedProducts = [
         {
             name: "banana",
+            category: "fruit",
             price: 10,
-            category: "fruit"
         },
         {
             name: "carrot",
+            category: "vegetable",
             price: 5,
-            category: "vegetable"
         },
         {
             name: "watermelon",
+            category: "fruit",
             price: 20,
-            category: "fruit"
         }
     ]
 

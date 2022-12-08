@@ -1,7 +1,7 @@
 require ('dotenv').config();
 const { name } = require('ejs');
-const mongoose = require("mongoose")
 require("../models/itemsModel")
+const mongoose = require("mongoose")
 const Item = mongoose.model("Item")
 const itemDto = require('../models/itemDto')
 
@@ -15,16 +15,12 @@ exports.getAll = (req, res) => {
         if (err) {
             res.status(400).send(err)
         } else {
+            console.log("GetAll",items)
             res.json(items)
         }
     })
 }
 
-exports.postnewItem= (req, res) => {
-    let item = new item(req.body.newitem);
-    item.saveitem();
-    res.redirect('/items');
-}
 
 exports.postnewItem = (req, res) => {  
     console.log(req.body);   //Create
@@ -49,6 +45,16 @@ exports.deleteItem = (req,res)=>{
     res.redirect('/');
 
 } 
+exports.createNew = function(req, res) {
+    const newItem = new Item(req.body);
+    newItem.save((err, item) => {
+        if (err) {
+            res.status(400).send(err);
+        } else{
+            res.status(201).json(item);
+        }
+    });
+};
 
 exports.getById = async function (req, res) {    //Read
     

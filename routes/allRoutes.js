@@ -28,7 +28,7 @@ module.exports = function(app){
 
     app.route("/items")
     .get(itemsController.getAll)
-    .post(itemsController.postnewItem)
+    .post(itemsController.getMainPage)
     
     app.route("/items/:id")
     .get(itemsController.getById)                  //Read

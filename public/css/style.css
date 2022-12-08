@@ -331,9 +331,9 @@ section
 
 }
 
-.card {
+/* .card {
     width: 27%;
-    background: rgb(0, 0, 0);
+    background: rgb(255, 253, 253);
     border: 3px solid #ccc;
     margin-bottom: 50px;
     transition: 0.2s;
@@ -390,7 +390,7 @@ section
     .card {
         width: 80%;
     }
-}
+} */
 
 
 

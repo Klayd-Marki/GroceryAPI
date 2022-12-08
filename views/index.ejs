@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    
 </head>
 
 <body>
@@ -20,10 +23,10 @@
 
             </ul>
         </nav>
-       
-    </header>
 
-    <!-- <img src="../public/img/back1.jpg" alt="">-->
+    </header> 
+
+    <!-- <img src="../public/img/back1.jpg" alt="">
 
 
     <!-- ---------------------home------------------------------ -->
@@ -39,46 +42,7 @@
 
     </section>
 
-    <!-- <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-xs-6">
-                <div class="list mb-2">
-                    <div class="list-header">
-                        <a class="list-header-image">
-                            <img src="https://kolotsitalu.ee/wp-content/uploads/2019/12/p6.jpg">
-                        </a>
-                    </div>
-                    <div class="list-content">
-                        <h2><a class="text-black">Banana</h2>
-                        <p>orem ipsum dolor, sit amet consectetur adipisicing elit. Impedit nobis animi dolorem debitis quo nemo
-                            eos dolor,
-                            doloribus qui est dignissimos consequuntur odio beatae, minus asperiores consectetur fugit doloremque
-                            quaerat.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-xs-6">
-                <div class="list mb-2">
-                    <div class="list-header">
-                        <a class="list-header-image">
-                                
-                        </a>
-                    </div>
-                    <div class="list-content">
-                        <h2><a class="text-black">Carrot</h2>
-                        <p>orem ipsum dolor, sit amet consectetur adipisicing elit. Impedit nobis animi dolorem debitis quo nemo
-                            eos dolor,
-                            doloribus qui est dignissimos consequuntur odio beatae, minus asperiores consectetur fugit doloremque
-                            quaerat.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
-
+    <!-- 
     <div class="container">
         <div class="row">
             <div class="card">
@@ -181,12 +145,87 @@
             </div>
         </div>
 
+    </div> -->
+
+
+    <div id="app">
+        <!-- <%- include('partials/navbar') %> -->
+        <div class="container">
+            <div v-for="item in items">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Banana_%28white_background%29.jpg/640px-Banana_%28white_background%29.jpg"
+                                    alt="rover" />
+                            </div>
+                            <div class="card-body">
+                                <h2>
+                                    <h3 class="text-black">{{item.name}}</h1>
+                                </h2>
+                                <br>
+                                <span class="list-meta">
+                                    <span class="list-meta-item"></i> Category: {{item.category}}</span>
+                                    <br>
+                                    <span class="list-meta-item">Price: {{item.price}}<i class="fas fa-euro-sign price"></i> </span>
+                                </span>
+                                <br>
+                                <div class="card-info">
+                                    <div class="buttons">
+                                        <button @click="getitem(item._id)" class="details-btn">Details</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        
+
+
+        <div class="modal fade modal-sm " id="itemInfoModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+            aria-labelledby="itemInfoModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header ">
+                        <h5 class="modal-title">Items details<h5>
+                                <button type="button" class="btn-close " data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </button>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <th>id: </th>
+                                <td>{{itemInModal.id}}</td>
+                            </tr>
+                            <tr>
+                                <th>name: </th>
+                                <td>{{itemInModal.name}}</td>
+                            </tr>
+                            <tr>
+                                <th>category: </th>
+                                <td>{{itemInModal.category}}</td>
+                            </tr>
+                            <tr>
+                                <th>price: </th>
+                                <td>{{itemInModal.price}}</td>
+                            </tr>
+
+                        </table>
+                        <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
     </div>
 
-
-
-
-
+</div>
 
 
 
@@ -194,14 +233,35 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-        crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
+        createApp({
+            data() {
+                return {
+                    itemInModal: {},
+                    items: []
+                }
+            },
+            async created() {
+                this.items = await (await fetch('http://localhost:8000/items')).json();
+
+            },
+            methods: {
+                getitem: async function (id) {
+                    this.itemInModal = await (await fetch(`http://localhost:8000/items/${id}`)).json()
+                    console.log(this.itemInModal);
+                    const itemInfoModal = new bootstrap.Modal(document.getElementById('itemInfoModal'), {})
+                    itemInfoModal.show()
+                }
+            }
+        }).mount('#app')
+    </script>
 </body>
 
 </html>
